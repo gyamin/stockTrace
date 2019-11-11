@@ -1,0 +1,7 @@
+nbproject/
+.idea/
+build/
+classes/
+/dist/
+stockTrace.jar
+stockTrace.tar.gz

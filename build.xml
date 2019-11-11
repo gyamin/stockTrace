@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- You may freely edit this file. See commented blocks below for -->
+<!-- some examples of how to customize the build. -->
+<!-- (If you delete it and reopen the project it will be recreated.) -->
+<!-- By default, only the Clean and Build commands use this build script. -->
+<!-- Commands such as Run, Debug, and Test only use this build script if -->
+<!-- the Compile on Save feature is turned off for the project. -->
+<!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
+<!-- in the project's Project Properties dialog box.-->
+<project name="stockTrace" default="default" basedir=".">
+    <description>Builds, tests, and runs the project stockTrace.</description>
+    <!--<import file="nbproject/build-impl.xml"/>-->
+    <!--
+
+    There exist several targets which are by default empty and which can be 
+    used for execution of your tasks. These targets are usually executed 
+    before and after some main targets. They are: 
+
+      -pre-init:                 called before initialization of project properties
+      -post-init:                called after initialization of project properties
+      -pre-compile:              called before javac compilation
+      -post-compile:             called after javac compilation
+      -pre-compile-single:       called before javac compilation of single file
+      -post-compile-single:      called after javac compilation of single file
+      -pre-compile-test:         called before javac compilation of JUnit tests
+      -post-compile-test:        called after javac compilation of JUnit tests
+      -pre-compile-test-single:  called before javac compilation of single JUnit test
+      -post-compile-test-single: called after javac compilation of single JUunit test
+      -pre-jar:                  called before JAR building
+      -post-jar:                 called after JAR building
+      -post-clean:               called after cleaning build products
+
+    (Targets beginning with '-' are not intended to be called on their own.)
+
+    Example of inserting an obfuscator after compilation could look like this:
+
+        <target name="-post-compile">
+            <obfuscate>
+                <fileset dir="${build.classes.dir}"/>
+            </obfuscate>
+        </target>
+
+    For list of available properties check the imported 
+    nbproject/build-impl.xml file. 
+
+
+    Another way to customize the build is by overriding existing main targets.
+    The targets of interest are: 
+
+      -init-macrodef-javac:     defines macro for javac compilation
+      -init-macrodef-junit:     defines macro for junit execution
+      -init-macrodef-debug:     defines macro for class debugging
+      -init-macrodef-java:      defines macro for class execution
+      -do-jar:                  JAR building
+      run:                      execution of project 
+      -javadoc-build:           Javadoc generation
+      test-report:              JUnit report generation
+
+    An example of overriding the target for project execution could look like this:
+
+        <target name="run" depends="stockTrace-impl.jar">
+            <exec dir="bin" executable="launcher.exe">
+                <arg file="${dist.jar}"/>
+            </exec>
+        </target>
+
+    Notice that the overridden target depends on the jar target and not only on 
+    the compile target as the regular run target does. Again, for a list of available 
+    properties which you can use, check the target you are overriding in the
+    nbproject/build-impl.xml file. 
+
+    -->
+
+    <!-- classpathに含めるクラスを指定する -->
+    <path id="pj_classpath">
+        <!--libディレクトリを追加-->
+        <fileset dir="lib">
+            <!-- 全てのjarファイルをクラスパスに含める -->
+            <include name="*.jar"/>
+        </fileset>
+        <!--カレントディレクトリを追加-->
+        <fileset dir="."></fileset>
+    </path>
+
+    <!--処理を行うtargetを順次指定-->
+    <target name="default">
+        <antcall target="build">
+        </antcall>
+        <antcall target="copy_depends">
+        </antcall>
+        <antcall target="post_build">
+        </antcall>
+        <antcall target="make_distribution">
+        </antcall>
+    </target>
+
+    <!--コンパイル実行-->
+    <target name="build">
+        <echo>Build Start</echo>
+        <delete dir="classes" />
+        <delete file="stockTrace.jar" />
+        <delete file="stockTrace.tar.gz" />
+        <mkdir dir="classes" />
+        <javac  srcdir="src"
+                excludes=""
+                destdir="classes"
+                classpathref="pj_classpath" />
+    </target>
+
+    <!--実行に必要なファイルをコピーする-->
+    <target name="copy_depends" depends="build">
+        <!--sqlファイルをコピー-->
+        <copy todir="./classes/analyze/sql/">
+            <fileset dir="./src/analyze/sql">
+                <include name="*.sql"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <!--jarファイルを作成する-->
+    <target name="post_build" depends="copy_depends">
+        <jar destfile="stockTrace.jar"
+             basedir="classes"
+             manifest="manifest.mf"/>
+        <!--不要ファイルを削除-->
+        <delete dir="classes" />
+        <!--<delete file="stockTrace.jar" />-->
+    </target>
+
+    <!--プログラム配布用ディレクトリを作成-->
+    <target name="make_distribution" depends="post_build">
+        <!--jarファイルの作成-->
+        <copy file="stockTrace.jar" todir="./dist"/>
+        <!--依存ライブラリをコピー-->
+        <copy todir="./dist/lib">
+            <fileset dir="lib"/>
+        </copy>
+        <!--propertiesファイルをコピー-->
+        <copy file="./application.properties" todir="./dist"/>
+        <copy file="./logging.properties" todir="./dist"/>
+
+
+        <!--ログ出力や解析結果CSVの出力先ディレクトリ(workspace)をコピー-->
+        <copy todir="./dist/workspace">
+            <fileset dir="workspace"/>
+        </copy>
+        <!--コピー元に存在する可能性のある不要ファイルを削除-->
+        <delete>
+            <fileset dir="./dist/workspace/log">
+                <include name="*.log"/>
+                <include name=".gitkeep"/>
+            </fileset>
+        </delete>
+        <delete>
+            <fileset dir="./dist/workspace/analyze/result">
+                <include name="*.csv"/>
+                <include name=".gitkeep"/>
+            </fileset>
+        </delete>
+        <!--tar.gzを作成-->
+        <!--<exec command="tar cfz stockTrace.tar.gz &#45;&#45;exclude .DS_Store stockTrace.jar lib/ datamigration/" />-->
+    </target>
+</project>
