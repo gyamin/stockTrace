@@ -14,6 +14,8 @@ class Crawler(val url: String, var itemConfigList: List<ItemConfig>) {
             val rowVal = doc.select(it.cssQuery).text()
             val regex = Regex(it.regexPattern)
             val cleanedVal = regex.replace(rowVal, "")
+            print("${it.name} | ")
+            print("$rowVal | ")
             println(cleanedVal)
         }
     }
