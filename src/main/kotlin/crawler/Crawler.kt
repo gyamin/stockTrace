@@ -1,9 +1,8 @@
 package crawler
 
-import crawler.data.ItemConfig
+import crawler.data.config.ItemConfig
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import org.jsoup.select.Elements
 
 class Crawler(val url: String, var itemConfigList: List<ItemConfig>) {
 

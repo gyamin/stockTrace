@@ -1,6 +1,5 @@
 import crawler.Crawler
-import crawler.data.ItemConfig
-import crawler.data.NomuraConfig
+import crawler.data.config.NomuraConfig
 
 fun main(args: Array<String>) {
 

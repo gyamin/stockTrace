@@ -1,4 +1,4 @@
-package crawler.data
+package crawler.data.config
 
 class NomuraConfig {
     private val siteUrl: String = ""
