@@ -7,7 +7,7 @@ import crawler.data.model.StockValue
 
 class Crawler(val url: String, var itemConfigList: List<ItemConfig>) {
 
-    fun getDocument(): StockValue {
+    fun getStockValue(): StockValue {
         val doc: Document = Jsoup.connect(url).get()
         val stockValueHash = mutableMapOf<String, String>()
 
