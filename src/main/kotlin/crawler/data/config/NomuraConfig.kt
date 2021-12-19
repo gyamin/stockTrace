@@ -13,7 +13,7 @@ class NomuraConfig {
         itemConfigList.add(ItemConfig("year_high_price", "table.tbl:nth-child(2) > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(2)", ",|\\(\\d{4}/\\d{2}/\\d{2}\\)|\\ "))
         itemConfigList.add(ItemConfig("year_high_price_date", "table.tbl:nth-child(2) > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(2)", "^.*.\\(|\\)\$"))
         itemConfigList.add(ItemConfig("year_low_price", "table.tbl:nth-child(2) > tbody:nth-child(2) > tr:nth-child(2) > td:nth-child(2)", ",|\\(\\d{4}/\\d{2}/\\d{2}\\)|\\ "))
-        itemConfigList.add(ItemConfig("year_low_price_date", "table.tbl:nth-child(2) > tbody:nth-child(2) > tr:nth-child(2) > td:nth-child(2)", "^.*.\\(|\\)\$"))
+        itemConfigList.add(ItemConfig("year_low_price_date", "table.tbl:nth-child(2) > tbody:nth-child(2) > tr:nth-child(2) > td:nth-child(2)", ",|\\(\\d{4}/\\d{2}/\\d{2}\\)|\\ "))
+        itemConfigList.add(ItemConfig("trading_unit", "ul.-delimited:nth-child(3) > li:nth-child(3)", "売買単位：|株"))
     }
-
 }
