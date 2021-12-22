@@ -3,11 +3,11 @@ package crawler
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import crawler.data.config.ItemConfig
-import crawler.data.model.StockValue
+import crawler.data.model.StockValueBean
 
 class Crawler(val url: String, var itemConfigList: List<ItemConfig>) {
 
-    fun getStockValue(): StockValue {
+    fun getStockValue(): StockValueBean {
         val doc: Document = Jsoup.connect(url).get()
         val stockValueHash = mutableMapOf<String, String>()
 
@@ -18,7 +18,7 @@ class Crawler(val url: String, var itemConfigList: List<ItemConfig>) {
             stockValueHash[it.name] = cleanedVal
         }
 
-        val stockValue = StockValue()
+        val stockValue = StockValueBean()
         stockValue.currentPrice = stockValueHash["current_price"]?.toFloatOrNull()
         stockValue.theDayBeforePrice = stockValueHash["the_day_before_price"]?.toFloatOrNull()
         stockValue.startPrice = stockValueHash["start_price"]?.toFloatOrNull()

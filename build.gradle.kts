@@ -15,6 +15,7 @@ repositories {
 dependencies {
     testImplementation(kotlin("test"))
     implementation("org.jsoup:jsoup:1.14.3")
+    implementation("org.postgresql:postgresql:42.3.1")
 }
 
 tasks.test {

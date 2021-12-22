@@ -1,6 +1,6 @@
 package crawler.data.model
 
-class StockValue() {
+class StockValueBean() {
     var currentPrice: Float? = null
     var theDayBeforePrice: Float? = null
     var startPrice: Float? = null
