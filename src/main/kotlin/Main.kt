@@ -3,11 +3,17 @@ import org.jdbi.v3.core.Handle
 import org.jdbi.v3.core.Jdbi
 import org.jdbi.v3.core.kotlin.KotlinPlugin
 import org.jdbi.v3.core.kotlin.mapTo
+import org.jdbi.v3.sqlobject.kotlin.RegisterKotlinMapper
+import org.jdbi.v3.sqlobject.kotlin.KotlinSqlObjectPlugin
+import org.jdbi.v3.sqlobject.kotlin.onDemand
+import org.jdbi.v3.sqlobject.statement.SqlQuery
 
-//interface ItemDao {
-//    @SqlQuery("select trading_name from items")
-//    fun list(): List<ItemBean>
-//}
+
+interface ItemDao {
+    @SqlQuery("select code, trading_name, market_type, sector33_code, sector33_name, sector17_code, sector17_name, scale_code, scale_name, created_at, updated_at from items")
+    @RegisterKotlinMapper(ItemBean::class)
+    fun list(): List<ItemBean>
+}
 
 fun main(args: Array<String>) {
     // パターン1
@@ -26,7 +32,7 @@ fun main(args: Array<String>) {
 //        itemList.add(item)
 //    }
 
-    // パターン2
+    // jdbi -1 KotlinPlugin
     val jdbi = Jdbi.create("jdbc:postgresql://localhost:15432/loc_stock_trace", "admin", "pwd12345!")
         .installPlugin(KotlinPlugin())
 
@@ -34,4 +40,12 @@ fun main(args: Array<String>) {
          val items = handle?.createQuery("select code, trading_name, market_type, sector33_code, sector33_name, sector17_code, sector17_name, scale_code, scale_name, created_at, updated_at from items")?.mapTo<ItemBean>()?.list()
         println(items.toString())
     }
+
+    // jdbi -2 KotlinSqlObjectPlugin
+    val jdbi2 = Jdbi.create("jdbc:postgresql://localhost:15432/loc_stock_trace", "admin", "pwd12345!")
+        .installPlugin(KotlinSqlObjectPlugin())
+    val dao = jdbi2.onDemand<ItemDao>()
+    val items2 = dao.list()
+    println(items2.toString())
+
 }
