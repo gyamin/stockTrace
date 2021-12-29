@@ -1,14 +1,18 @@
 package crawler.data.model
 
-class ItemBean {
-    lateinit var code: String
-    lateinit var trading_name: String
-    var market_type: Int? = null
-    var market_name: String? = null
-    var sector33_code: Float? = null
-    var yearHighPrice: Float? = null
-    var yearHighPriceDate: String? = ""
-    var yearLowPrice: Float? = null
-    var yearLowPriceDate: String? = ""
-    var tradingUnit: Float? = null
-}
+import org.jdbi.v3.core.mapper.reflect.ColumnName
+
+data class ItemBean (
+    val code: String,
+    @ColumnName("trading_name")
+    val tradingName: String,
+    val marketType: String?,
+    val sector33Code: Int?,
+    val sector33Name: String?,
+    val sector17Code: Int?,
+    val sector17Name: String?,
+    val scaleCode: Int?,
+    val scaleName: String?,
+    val createdAt: String?,
+    val updatedAt: String?
+)
