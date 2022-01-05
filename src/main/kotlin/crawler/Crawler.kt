@@ -2,8 +2,8 @@ package crawler
 
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import crawler.data.config.ItemConfig
-import crawler.data.model.StockValueBean
+import crawler.config.ItemConfig
+import crawler.db.model.StockValueBean
 
 class Crawler(val url: String, var itemConfigList: List<ItemConfig>) {
 

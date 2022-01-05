@@ -1,4 +1,4 @@
-package crawler.data.model
+package crawler.db.model
 
 class StockValueBean() {
     var currentPrice: Float? = null

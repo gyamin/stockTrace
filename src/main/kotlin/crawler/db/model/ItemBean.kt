@@ -1,4 +1,4 @@
-package crawler.data.model
+package crawler.db.model
 
 import org.jdbi.v3.core.mapper.reflect.ColumnName
 
