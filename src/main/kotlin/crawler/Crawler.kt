@@ -5,9 +5,18 @@ import org.jsoup.nodes.Document
 import crawler.config.ItemConfig
 import crawler.db.model.StockValueBean
 
-class Crawler(val url: String, var itemConfigList: List<ItemConfig>) {
+class Crawler(var itemConfigList: List<ItemConfig>) {
+    var code: String = ""
+
+    fun getUrl(): String {
+        val baseUrl =
+            "https://quote.nomura.co.jp/nomura/cgi-bin/parser.pl?QCODE=%code%&TEMPLATE=nomura_tp_kabu_01&MKTN=T"
+        val regex = Regex("%code%")
+        return regex.replace(baseUrl, code)
+    }
 
     fun getStockValue(): StockValueBean {
+        val url = getUrl()
         val doc: Document = Jsoup.connect(url).get()
         val stockValueHash = mutableMapOf<String, String>()
 

@@ -7,7 +7,6 @@ import java.util.Properties
 
 class DbConnection {
     fun getConnection(): Jdbi {
-
         val properties = Properties().apply {
             val file = File("application.properties")
             file.inputStream().use(this::load)
