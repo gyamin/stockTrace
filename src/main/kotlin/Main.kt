@@ -3,8 +3,9 @@ import crawler.config.NomuraConfig
 import crawler.db.DbConnection
 import crawler.db.dao.ItemDao
 import org.jdbi.v3.sqlobject.kotlin.onDemand
+import java.time.LocalDateTime
 
-fun main(args: Array<String>) {
+suspend fun main(args: Array<String>) {
     // 銘柄一覧を取得
     val dbConnection = DbConnection()
     val jdbi = dbConnection.getConnection()
@@ -15,9 +16,11 @@ fun main(args: Array<String>) {
     var config = NomuraConfig()
     var crawler = Crawler(config.itemConfigList)
     for (item in items) {
+        // 株価データ取得
         crawler.code = item.code
+        println(LocalDateTime.now())
         var result = crawler.getStockValue()
-        print(item.tradingName + ": ")
-        println(result.currentPrice)
+        println("${item.tradingName} : ${result.currentPrice}")
+        println(LocalDateTime.now())
     }
 }

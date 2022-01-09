@@ -1,5 +1,6 @@
 package crawler
 
+import kotlinx.coroutines.delay
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import crawler.config.ItemConfig
@@ -8,14 +9,17 @@ import crawler.db.model.StockValueBean
 class Crawler(var itemConfigList: List<ItemConfig>) {
     var code: String = ""
 
-    fun getUrl(): String {
+    private fun getUrl(): String {
         val baseUrl =
             "https://quote.nomura.co.jp/nomura/cgi-bin/parser.pl?QCODE=%code%&TEMPLATE=nomura_tp_kabu_01&MKTN=T"
         val regex = Regex("%code%")
         return regex.replace(baseUrl, code)
     }
 
-    fun getStockValue(): StockValueBean {
+    suspend fun getStockValue(): StockValueBean {
+        val wait = (1..5).random()
+        println("${wait}秒待機")
+        delay((1000 * wait).toLong())
         val url = getUrl()
         val doc: Document = Jsoup.connect(url).get()
         val stockValueHash = mutableMapOf<String, String>()

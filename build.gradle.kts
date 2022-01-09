@@ -19,6 +19,7 @@ dependencies {
     implementation("org.jdbi:jdbi3-kotlin:3.26.0")
     implementation("org.jdbi:jdbi3-kotlin-sqlobject:3.26.0")
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.5.32")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
 }
 
 tasks.test {
