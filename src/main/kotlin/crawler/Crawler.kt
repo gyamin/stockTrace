@@ -17,9 +17,13 @@ class Crawler(var itemConfigList: List<ItemConfig>) {
     }
 
     suspend fun getStockValue(): StockValueBean {
-        val wait = (1..5).random()
-        println("${wait}秒待機")
-        delay((1000 * wait).toLong())
+        // 待機処理
+        val second = (1..5).random()
+        val milliSecond = (0..9).random()
+        val wait = second * 1000 + milliSecond * 100
+        println("待機: ${wait}ms")
+        delay((wait).toLong())
+
         val url = getUrl()
         val doc: Document = Jsoup.connect(url).get()
         val stockValueHash = mutableMapOf<String, String>()

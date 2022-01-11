@@ -2,6 +2,7 @@ import crawler.Crawler
 import crawler.config.NomuraConfig
 import crawler.db.DbConnection
 import crawler.db.dao.ItemDao
+import kotlinx.coroutines.*
 import org.jdbi.v3.sqlobject.kotlin.onDemand
 import java.time.LocalDateTime
 
@@ -13,14 +14,19 @@ suspend fun main(args: Array<String>) {
     val items = dao.getAll()
 
     // クローリング実行
+    //  とりあえず、itemsに５件データ取得して、並列処理で実行してみる
     var config = NomuraConfig()
-    var crawler = Crawler(config.itemConfigList)
-    for (item in items) {
-        // 株価データ取得
-        crawler.code = item.code
-        println(LocalDateTime.now())
-        var result = crawler.getStockValue()
-        println("${item.tradingName} : ${result.currentPrice}")
-        println(LocalDateTime.now())
+    coroutineScope {
+        val deferred = items.map {
+            async {
+                var crawler = Crawler(config.itemConfigList)
+                crawler.code = it.code
+                println(LocalDateTime.now())
+                val ret = crawler.getStockValue()
+                println("${it.tradingName} : ${ret.currentPrice}")
+                println(LocalDateTime.now())
+            }
+        }
+        deferred.awaitAll()
     }
 }
