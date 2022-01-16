@@ -1,6 +1,5 @@
 package crawler.db.dao
 
-import crawler.MasterRegister
 import crawler.db.DbConnection
 import crawler.db.model.ItemBean
 import org.jdbi.v3.sqlobject.kotlin.onDemand
@@ -18,10 +17,12 @@ class ItemDaoTest {
         val dbConnection = DbConnection()
         val jdbi = dbConnection.getConnection()
         val dao = jdbi.onDemand<ItemDao>()
-        dao.insertItemBean(item)
-
-        val items = dao.getAll()
-        
-
+        jdbi.useHandle<Exception> { handle ->
+            handle.begin()
+            dao.insertItemBean(item)
+            val selectItem = dao.getByCode("1301")
+            assertEquals("極洋", selectItem.tradingName)
+            handle.rollback()
+        }
     }
 }
