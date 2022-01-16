@@ -3,7 +3,7 @@ package crawler.db.model
 import org.jdbi.v3.core.mapper.reflect.ColumnName
 
 data class ItemBean (
-    var code: String?,
+    var code: String,
     @ColumnName("trading_name")
     var tradingName: String?,
     var marketType: String?,

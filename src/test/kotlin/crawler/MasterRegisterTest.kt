@@ -12,4 +12,10 @@ class MasterRegisterTest {
         val item0 = itemBeanList[0]
         assertEquals("極洋", item0.tradingName)
     }
+
+    @Test
+    internal fun testRegisterItemMaster() {
+        val masterRegister = MasterRegister()
+        masterRegister.registerItemMaster()
+    }
 }

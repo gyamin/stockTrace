@@ -2,7 +2,11 @@ package crawler
 
 import com.opencsv.CSVIterator
 import com.opencsv.CSVReader
+import crawler.common.Utils
+import crawler.db.DbConnection
+import crawler.db.dao.ItemDao
 import crawler.db.model.ItemBean
+import org.jdbi.v3.sqlobject.kotlin.onDemand
 import java.io.File
 import java.io.FileReader
 
@@ -36,4 +40,24 @@ class MasterRegister {
         return itemBeanList
     }
 
+    fun registerItemMaster() {
+        val utils = Utils()
+        val prop = utils.redProperties()
+        val itemBeanList = readItemCsv(prop.getProperty("trading_item_file"))
+
+        val dbConnection = DbConnection()
+        val jdbi = dbConnection.getConnection()
+        jdbi.useHandle<Exception> { handle ->
+            val dao = jdbi.onDemand<ItemDao>()
+            handle.begin()
+            for ((index, item) in itemBeanList.withIndex()) {
+                val selectedItem = dao.getByCode(item.code)
+                if(selectedItem == null) {
+                    dao.insertItemBean(item)
+                    println("登録: ${item.code}")
+                }
+            }
+            handle.commit()
+        }
+    }
 }

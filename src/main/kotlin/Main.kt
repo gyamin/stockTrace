@@ -1,3 +1,4 @@
+import crawler.MasterRegister
 import crawler.Runner
 
 suspend fun main(args: Array<String>) {
@@ -10,9 +11,8 @@ suspend fun main(args: Array<String>) {
         // クローリング処理実行
         val runner = Runner()
         runner.runCrawling()
-    }else if(args[0] === "") {
+    }else if(args[0] === "registerMaster") {
         // マスタデータ更新処理
-
+        val masterRegister = MasterRegister()
     }
-
 }
