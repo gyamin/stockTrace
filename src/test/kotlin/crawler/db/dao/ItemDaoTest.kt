@@ -1,0 +1,27 @@
+package crawler.db.dao
+
+import crawler.MasterRegister
+import crawler.db.DbConnection
+import crawler.db.model.ItemBean
+import org.jdbi.v3.sqlobject.kotlin.onDemand
+import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
+
+class ItemDaoTest {
+    @Test
+    internal fun testInsertItemBean() {
+        val item = ItemBean(
+            "1301","極洋", "市場第一部（内国株）",
+            50, "水産・農林業", 1, "食品",
+            7, "TOPIX Small 2", null, null
+        )
+        val dbConnection = DbConnection()
+        val jdbi = dbConnection.getConnection()
+        val dao = jdbi.onDemand<ItemDao>()
+        dao.insertItemBean(item)
+
+        val items = dao.getAll()
+        
+
+    }
+}

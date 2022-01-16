@@ -3,16 +3,16 @@ package crawler.db.model
 import org.jdbi.v3.core.mapper.reflect.ColumnName
 
 data class ItemBean (
-    val code: String,
+    var code: String?,
     @ColumnName("trading_name")
-    val tradingName: String,
-    val marketType: String?,
-    val sector33Code: Int?,
-    val sector33Name: String?,
-    val sector17Code: Int?,
-    val sector17Name: String?,
-    val scaleCode: Int?,
-    val scaleName: String?,
-    val createdAt: String?,
-    val updatedAt: String?
+    var tradingName: String?,
+    var marketType: String?,
+    var sector33Code: Int?,
+    var sector33Name: String?,
+    var sector17Code: Int?,
+    var sector17Name: String?,
+    var scaleCode: Int?,
+    var scaleName: String?,
+    var createdAt: String?,
+    var updatedAt: String?
 )

@@ -17,11 +17,8 @@ class Crawler(var itemConfigList: List<ItemConfig>) {
     }
 
     suspend fun getStockValue(): StockValueBean {
-        // 待機処理
-        val second = (1..5).random()
-        val milliSecond = (0..9).random()
-        val wait = second * 1000 + milliSecond * 100
-        println("待機: ${wait}ms")
+        // 待機処理 100ms 〜 5000ms のランダム
+        val wait = (100..5 * 1000).random()
         delay((wait).toLong())
 
         val url = getUrl()
