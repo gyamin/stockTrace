@@ -53,8 +53,11 @@ class MasterRegister {
             for ((index, item) in itemBeanList.withIndex()) {
                 val selectedItem = dao.getByCode(item.code)
                 if(selectedItem == null) {
+                    // 該当レコードがない場合、新規追加
                     dao.insertItemBean(item)
-                    println("登録: ${item.code}")
+                }else{
+                    // レコードがある場合、更新
+                    dao.updateByCode(item, item.code)
                 }
             }
             handle.commit()
