@@ -7,7 +7,6 @@ import org.jdbi.v3.sqlobject.kotlin.RegisterKotlinMapper
 import org.jdbi.v3.sqlobject.statement.SqlQuery
 import org.jdbi.v3.sqlobject.statement.SqlUpdate
 
-
 interface ItemDao {
     @SqlQuery("""SELECT code, trading_name, market_type, sector33_code, sector33_name, sector17_code, sector17_name, 
         scale_code, scale_name, created_at, updated_at FROM items""")

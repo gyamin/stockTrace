@@ -10,7 +10,9 @@ import kotlinx.coroutines.awaitAll
 import org.jdbi.v3.sqlobject.kotlin.onDemand
 import java.time.LocalDateTime
 
-class CrawlerRunner {
+class CrawlerRunner(items: List<ItemBean>?) {
+    var itemsList = items
+
     private fun getItems():List<ItemBean> {
         // 銘柄一覧を取得
         val dbConnection = DbConnection()
@@ -21,11 +23,12 @@ class CrawlerRunner {
     }
 
     suspend fun runCrawling() {
-        // 銘柄一覧取得
-        val items = getItems()
+        if(itemsList.isNullOrEmpty()) {
+            itemsList = getItems()
+        }
 
         // 設定値の数で分割
-        val chunkedItems = items.chunked(5)
+        val chunkedItems = itemsList!!.chunked(5)
 
         // クローリング実行
         var config = NomuraConfig()

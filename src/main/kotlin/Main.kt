@@ -11,7 +11,7 @@ suspend fun main(args: Array<String>) {
 
     if(args[0] == "crawling") {
         // クローリング処理実行
-        val crawlerRunner = CrawlerRunner()
+        val crawlerRunner = CrawlerRunner(null)
         crawlerRunner.runCrawling()
     }else if(args[0] == "registerMaster") {
         // マスタデータ更新処理
