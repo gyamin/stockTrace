@@ -4,6 +4,7 @@ import crawler.config.NomuraConfig
 import crawler.db.DbConnection
 import crawler.db.dao.ItemDao
 import crawler.db.model.ItemBean
+import crawler.db.model.StockValueBean
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -32,6 +33,7 @@ class CrawlerRunner(items: List<ItemBean>?) {
         val chunkedItems = itemsList!!.chunked(5)
 
         // クローリング実行
+        val resultList = mutableListOf<StockValueBean>()
         var config = NomuraConfig()
         coroutineScope {
             chunkedItems.forEach {
@@ -42,8 +44,10 @@ class CrawlerRunner(items: List<ItemBean>?) {
 
                         println("${LocalDateTime.now().toString()} | START: ${it.code} ${it.tradingName}")
                         val ret = crawler.getStockValue()
+                        resultList.add(ret)
                         println("${it.tradingName} : ${ret.currentPrice}")
                         println("${LocalDateTime.now().toString()} | END: ${it.code} ${it.tradingName}")
+
                     }
                 }
                 deferred.awaitAll()
