@@ -24,6 +24,7 @@ class CrawlerRunner(items: List<ItemBean>?) {
 
     suspend fun runCrawling() {
         if(itemsList.isNullOrEmpty()) {
+            // 銘柄リストが指定されていない場合、全銘柄を対象とする
             itemsList = getItems()
         }
 
@@ -37,11 +38,12 @@ class CrawlerRunner(items: List<ItemBean>?) {
                 val deferred = it.map {
                     async {
                         var crawler = Crawler(config.itemConfigList)
-                        crawler.code = it.code.toString()
-                        println(LocalDateTime.now())
+                        crawler.code = it.code
+
+                        println("${LocalDateTime.now().toString()} | START: ${it.code} ${it.tradingName}")
                         val ret = crawler.getStockValue()
                         println("${it.tradingName} : ${ret.currentPrice}")
-                        println(LocalDateTime.now())
+                        println("${LocalDateTime.now().toString()} | END: ${it.code} ${it.tradingName}")
                     }
                 }
                 deferred.awaitAll()
