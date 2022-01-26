@@ -10,8 +10,10 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import org.jdbi.v3.sqlobject.kotlin.onDemand
 import java.time.LocalDateTime
+import org.apache.logging.log4j.kotlin.logger
 
 class CrawlerRunner(items: List<ItemBean>?) {
+    val logger = logger("Main")
     var itemsList = items
 
     private fun getItems():List<ItemBean> {
@@ -41,13 +43,10 @@ class CrawlerRunner(items: List<ItemBean>?) {
                     async {
                         var crawler = Crawler(config.itemConfigList)
                         crawler.code = it.code
-
-                        println("${LocalDateTime.now().toString()} | START: ${it.code} ${it.tradingName}")
+                        logger.debug("START: ${it.code} ${it.tradingName}")
                         val ret = crawler.getStockValue()
+                        logger.debug("END: ${it.code} ${it.tradingName}")
                         resultList.add(ret)
-                        println("${it.tradingName} : ${ret.currentPrice}")
-                        println("${LocalDateTime.now().toString()} | END: ${it.code} ${it.tradingName}")
-
                     }
                 }
                 deferred.awaitAll()
