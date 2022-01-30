@@ -20,7 +20,7 @@ class CrawlerRunnerTest {
         """.trimIndent()
         val items = handle.createQuery(qry).map(ItemBeanMapper()).list()
         // クローリング処理 10件で実行
-        val crawlerRunner = CrawlerRunner(items as List<ItemBean>?)
+        val crawlerRunner = CrawlerRunner(jdbi, items as List<ItemBean>?)
         crawlerRunner.runCrawling()
     }
 }

@@ -1,13 +1,20 @@
 package crawler.common
 
 import java.io.File
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class Utils {
-    fun redProperties():Properties {
+    fun readProperties():Properties {
         return Properties().apply {
             val file = File("application.properties")
             file.inputStream().use(this::load)
         }
+    }
+
+    fun covertStringToDate(letter: String?, format:String):LocalDate {
+        val formatter = DateTimeFormatter.ofPattern(format)
+        return LocalDate.parse(letter, formatter)
     }
 }

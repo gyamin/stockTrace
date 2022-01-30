@@ -1,27 +1,26 @@
 package crawler
 
 import crawler.config.NomuraConfig
-import crawler.db.DbConnection
 import crawler.db.dao.ItemDao
+import crawler.db.dao.StockValueDao
 import crawler.db.model.ItemBean
 import crawler.db.model.StockValueBean
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import org.jdbi.v3.sqlobject.kotlin.onDemand
-import java.time.LocalDateTime
 import org.apache.logging.log4j.kotlin.logger
+import org.jdbi.v3.core.Jdbi
 
-class CrawlerRunner(items: List<ItemBean>?) {
+class CrawlerRunner(jdbi: Jdbi, items: List<ItemBean>?) {
     val logger = logger("Main")
     var itemsList = items
+    val jdbi = jdbi
 
     private fun getItems():List<ItemBean> {
         // 銘柄一覧を取得
-        val dbConnection = DbConnection()
-        val jdbi = dbConnection.getConnection()
-        val dao = jdbi.onDemand<ItemDao>()
-        val items = dao.getAll()
+        val itemDao = jdbi.onDemand<ItemDao>()
+        val items = itemDao.getAll()
         return items
     }
 
@@ -50,6 +49,16 @@ class CrawlerRunner(items: List<ItemBean>?) {
                     }
                 }
                 deferred.awaitAll()
+            }
+        }
+
+        // クローリングデータ保存
+        val stockValueDao = jdbi.onDemand<StockValueDao>()
+        resultList.forEach {
+            jdbi.useHandle<Exception> { handle ->
+                handle.begin()
+                stockValueDao.insertStockValue(it)
+                handle.commit()
             }
         }
     }
