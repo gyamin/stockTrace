@@ -11,6 +11,7 @@ import kotlinx.coroutines.awaitAll
 import org.jdbi.v3.sqlobject.kotlin.onDemand
 import org.apache.logging.log4j.kotlin.logger
 import org.jdbi.v3.core.Jdbi
+import org.jdbi.v3.core.statement.UnableToExecuteStatementException
 
 class CrawlerRunner(jdbi: Jdbi, items: List<ItemBean>?) {
     val logger = logger("Main")
@@ -22,6 +23,22 @@ class CrawlerRunner(jdbi: Jdbi, items: List<ItemBean>?) {
         val itemDao = jdbi.onDemand<ItemDao>()
         val items = itemDao.getAll()
         return items
+    }
+
+    private fun registerValues(stockValueList :List<StockValueBean>) {
+        val stockValueDao = jdbi.onDemand<StockValueDao>()
+        stockValueList.forEach {
+            try {
+                jdbi.useHandle<Exception> { handle ->
+                    handle.begin()
+                    stockValueDao.insertStockValue(it)
+                    handle.commit()
+                }
+            }catch (e: UnableToExecuteStatementException) {
+                logger.warn("SQL実行エラー: ${e.message}")
+                return@forEach
+            }
+        }
     }
 
     suspend fun runCrawling() {
@@ -38,27 +55,25 @@ class CrawlerRunner(jdbi: Jdbi, items: List<ItemBean>?) {
         var config = NomuraConfig()
         coroutineScope {
             chunkedItems.forEach {
-                val deferred = it.map {
-                    async {
-                        var crawler = Crawler(config.itemConfigList)
-                        crawler.code = it.code
-                        logger.debug("START: ${it.code} ${it.tradingName}")
-                        val ret = crawler.getStockValue()
-                        logger.debug("END: ${it.code} ${it.tradingName}")
-                        resultList.add(ret)
+                try {
+                    val deferred = it.map {
+                        async {
+                            var crawler = Crawler(config.itemConfigList)
+                            crawler.code = it.code
+                            logger.debug("START: ${it.code} ${it.tradingName}")
+                            val ret = crawler.getStockValue()
+                            logger.debug("END: ${it.code} ${it.tradingName}")
+                            resultList.add(ret)
+                        }
                     }
+                    // 非同期処理待ち受け
+                    deferred.awaitAll()
+                    // クローリングデータ登録
+                    registerValues(resultList)
+                }catch (e: Exception) {
+                    logger.error("エラー: ${e.message}")
+                    coroutineContext
                 }
-                deferred.awaitAll()
-            }
-        }
-
-        // クローリングデータ保存
-        val stockValueDao = jdbi.onDemand<StockValueDao>()
-        resultList.forEach {
-            jdbi.useHandle<Exception> { handle ->
-                handle.begin()
-                stockValueDao.insertStockValue(it)
-                handle.commit()
             }
         }
     }
