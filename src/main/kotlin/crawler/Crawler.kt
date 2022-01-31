@@ -1,5 +1,6 @@
 package crawler
 
+import crawler.common.Utils
 import kotlinx.coroutines.delay
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
@@ -33,16 +34,19 @@ class Crawler(var itemConfigList: List<ItemConfig>) {
         }
 
         val stockValue = StockValueBean()
+        val utils = Utils()
+        stockValue.code = code
+        stockValue.tradingDate = utils.covertStringToDate(stockValueHash["trading_date"], "yyyy/MM/dd")
         stockValue.currentPrice = stockValueHash["current_price"]?.toFloatOrNull()
         stockValue.theDayBeforePrice = stockValueHash["the_day_before_price"]?.toFloatOrNull()
         stockValue.startPrice = stockValueHash["start_price"]?.toFloatOrNull()
-        stockValue.theDayBeforePrice = stockValueHash["high_price"]?.toFloatOrNull()
-        stockValue.theDayBeforePrice = stockValueHash["low_price"]?.toFloatOrNull()
-        stockValue.theDayBeforePrice = stockValueHash["year_high_price"]?.toFloatOrNull()
-        stockValue.theDayBeforePrice = stockValueHash["year_high_price_date"]?.toFloatOrNull()
-        stockValue.theDayBeforePrice = stockValueHash["year_low_price"]?.toFloatOrNull()
-        stockValue.theDayBeforePrice = stockValueHash["year_low_price_date"]?.toFloatOrNull()
-        stockValue.theDayBeforePrice = stockValueHash["trading_unit"]?.toFloatOrNull()
+        stockValue.highPrice = stockValueHash["high_price"]?.toFloatOrNull()
+        stockValue.lowPrice = stockValueHash["low_price"]?.toFloatOrNull()
+        stockValue.yearHighPrice = stockValueHash["year_high_price"]?.toFloatOrNull()
+        stockValue.yearHighPriceDate = utils.covertStringToDate(stockValueHash["year_high_price_date"], "yyyy/MM/dd")
+        stockValue.yearLowPrice = stockValueHash["year_low_price"]?.toFloatOrNull()
+        stockValue.yearLowPriceDate = utils.covertStringToDate(stockValueHash["year_low_price_date"], "yyyy/MM/dd")
+        stockValue.tradingUnit = stockValueHash["trading_unit"]?.toIntOrNull()
 
         return stockValue
     }

@@ -21,6 +21,9 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.5.32")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
     implementation("com.opencsv:opencsv:5.5")
+    implementation("org.apache.logging.log4j:log4j-api:2.15.0")
+    implementation("org.apache.logging.log4j:log4j-core:2.15.0")
+    implementation("org.apache.logging.log4j:log4j-api-kotlin:1.1.0")
 }
 
 tasks.test {

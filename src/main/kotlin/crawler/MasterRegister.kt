@@ -42,7 +42,7 @@ class MasterRegister {
 
     fun registerItemMaster() {
         val utils = Utils()
-        val prop = utils.redProperties()
+        val prop = utils.readProperties()
         val itemBeanList = readItemCsv(prop.getProperty("trading_item_file"))
 
         val dbConnection = DbConnection()

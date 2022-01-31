@@ -1,5 +1,6 @@
 import crawler.MasterRegister
 import crawler.CrawlerRunner
+import crawler.db.DbConnection
 import kotlin.system.exitProcess
 
 suspend fun main(args: Array<String>) {
@@ -11,7 +12,9 @@ suspend fun main(args: Array<String>) {
 
     if(args[0] == "crawling") {
         // クローリング処理実行
-        val crawlerRunner = CrawlerRunner(null)
+        val dbConnection = DbConnection()
+        val jdbi = dbConnection.getConnection()
+        val crawlerRunner = CrawlerRunner(jdbi, null)
         crawlerRunner.runCrawling()
     }else if(args[0] == "registerMaster") {
         // マスタデータ更新処理

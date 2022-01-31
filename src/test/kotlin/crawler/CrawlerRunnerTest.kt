@@ -19,8 +19,8 @@ class CrawlerRunnerTest {
                     sector17_code, sector17_name, scale_code, scale_name, created_at, updated_at FROM items limit 10
         """.trimIndent()
         val items = handle.createQuery(qry).map(ItemBeanMapper()).list()
-        // クローリング処理 10件で実行してみたら
-        val crawlerRunner = CrawlerRunner(items as List<ItemBean>?)
+        // クローリング処理 10件で実行
+        val crawlerRunner = CrawlerRunner(jdbi, items as List<ItemBean>?)
         crawlerRunner.runCrawling()
     }
 }
