@@ -1,16 +1,13 @@
 package crawler.db
 
+import crawler.common.Utils
 import org.jdbi.v3.core.Jdbi
 import org.jdbi.v3.sqlobject.kotlin.KotlinSqlObjectPlugin
-import java.io.File
-import java.util.Properties
 
 class DbConnection {
     fun getConnection(): Jdbi {
-        val properties = Properties().apply {
-            val file = File("application.properties")
-            file.inputStream().use(this::load)
-        }
+        val utils = Utils()
+        val properties = utils.readProperties()
         return Jdbi.create(properties.getProperty("url"), properties.getProperty("user"), properties.getProperty("password"))
             .installPlugin(KotlinSqlObjectPlugin())
     }

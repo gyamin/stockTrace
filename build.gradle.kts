@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version "1.5.10"
     application
+    java
 }
 
 group = "me.gyamin"
@@ -33,7 +34,16 @@ tasks.test {
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "16"
 }
-
 application {
     mainClass.set("MainKt")
+}
+
+tasks.jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes["Main-Class"]= "MainKt"
+    }
+    configurations["runtimeClasspath"].forEach { file: File ->
+        from(zipTree(file.absoluteFile))
+    }
 }
