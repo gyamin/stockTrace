@@ -1,5 +1,6 @@
 package crawler
 
+import crawler.common.Utils
 import crawler.config.NomuraConfig
 import crawler.db.dao.ItemDao
 import crawler.db.dao.StockValueDao
@@ -47,8 +48,11 @@ class CrawlerRunner(jdbi: Jdbi, items: List<ItemBean>?) {
             itemsList = getItems()
         }
 
+        val utils = Utils()
+        val properties = utils.readProperties()
+
         // 設定値の数で分割
-        val chunkedItems = itemsList!!.chunked(5)
+        val chunkedItems = itemsList!!.chunked(properties.getProperty("concurrency").toInt())
 
         // クローリング実行
         val resultList = mutableListOf<StockValueBean>()

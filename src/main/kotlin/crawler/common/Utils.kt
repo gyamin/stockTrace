@@ -3,6 +3,7 @@ package crawler.common
 import java.io.File
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 import java.util.*
 
 class Utils {
@@ -13,8 +14,12 @@ class Utils {
         }
     }
 
-    fun covertStringToDate(letter: String?, format:String):LocalDate {
-        val formatter = DateTimeFormatter.ofPattern(format)
-        return LocalDate.parse(letter, formatter)
+    fun covertStringToDate(letter: String?, format:String):LocalDate? {
+        return try {
+            val formatter = DateTimeFormatter.ofPattern(format)
+            LocalDate.parse(letter, formatter)
+        } catch(e: DateTimeParseException) {
+            null
+        }
     }
 }
