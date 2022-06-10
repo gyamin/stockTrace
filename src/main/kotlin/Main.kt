@@ -5,7 +5,7 @@ import kotlin.system.exitProcess
 
 suspend fun main(args: Array<String>) {
 
-    if(args.size === 0) {
+    if(args.isEmpty()) {
         print("処理種別が指定されていません。")
         exitProcess(9)
     }

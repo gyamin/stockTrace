@@ -19,7 +19,7 @@ class MasterRegister {
 
         var itemBeanList = mutableListOf<ItemBean>()
         for ((index, row) in csvIter.withIndex()) {
-            if(index === 0){
+            if(index == 0){
                 continue
             }
             val itemBean = ItemBean(
@@ -50,7 +50,7 @@ class MasterRegister {
         jdbi.useHandle<Exception> { handle ->
             val dao = jdbi.onDemand<ItemDao>()
             handle.begin()
-            for ((index, item) in itemBeanList.withIndex()) {
+            for (item in itemBeanList) {
                 val selectedItem = dao.getByCode(item.code)
                 if(selectedItem == null) {
                     // 該当レコードがない場合、新規追加
