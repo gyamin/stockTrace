@@ -7,7 +7,7 @@ services:
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: pwd12345!
-      POSTGRES_DB: loc_stock_trace
+      POSTGRES_DB: loc_stocktrace
       TZ: "Asia/Tokyo"
     ports:
       - "15432:5432"

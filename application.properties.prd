@@ -1,0 +1,11 @@
+# Database
+url=jdbc:postgresql://localhost:5432/prd_stock_trace
+user=stock_trace
+password=grPHynn2
+
+# 株価銘柄CSVファイル
+trading_item_file=./data_j.csv
+
+# クローリング設定
+#   同時実行プロセス数
+concurrency=3

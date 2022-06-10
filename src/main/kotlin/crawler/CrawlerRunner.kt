@@ -36,7 +36,8 @@ class CrawlerRunner(jdbi: Jdbi, items: List<ItemBean>?) {
                     handle.commit()
                 }
             }catch (e: UnableToExecuteStatementException) {
-                logger.warn("SQL実行エラー: ${e.message}")
+                logger.warn("SQL実行エラー: ${e.message.toString()}")
+                logger.warn("エラー対象: ${it.code}")
                 return@forEach
             }
         }
@@ -55,11 +56,12 @@ class CrawlerRunner(jdbi: Jdbi, items: List<ItemBean>?) {
         val chunkedItems = itemsList!!.chunked(properties.getProperty("concurrency").toInt())
 
         // クローリング実行
-        val resultList = mutableListOf<StockValueBean>()
+//        val resultList = mutableListOf<StockValueBean>()
         var config = NomuraConfig()
         coroutineScope {
             chunkedItems.forEach {
                 try {
+                    val resultList = mutableListOf<StockValueBean>()
                     val deferred = it.map {
                         async {
                             var crawler = Crawler(config.itemConfigList)

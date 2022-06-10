@@ -18,4 +18,23 @@ class StockValueBean() {
     var tradingUnit: Int? = null
     var createdAt: LocalDateTime? = null
     var updatedAt: LocalDateTime? = null
+
+    public override fun toString() : String {
+        return """
+            code:${code},
+            tradingDate:${tradingDate},
+            currentPrice:${currentPrice},
+            theDayBeforePrice:${theDayBeforePrice},
+            startPrice:${startPrice},
+            highPrice:${highPrice}, 
+            lowPrice:${lowPrice}, 
+            yearHighPrice:${yearHighPrice},
+            yearHighPriceDate:${yearHighPriceDate}, 
+            yearLowPrice:${yearLowPrice}, 
+            yearLowPriceDate:${yearLowPriceDate},
+            tradingUnit:${tradingUnit}, 
+            createdAt:${createdAt}, 
+            updatedAt:${updatedAt},
+        """.trimIndent().replace(Regex("""\r\n|\n|\r"""), "")
+    }
 }
