@@ -1,5 +1,4 @@
-
-# 
+# ORマッピング検討 
 
 ## 参考
 - [段階的に理解する O/R マッピング](https://qiita.com/ts7i/items/c23e50b5ee29887c446c)

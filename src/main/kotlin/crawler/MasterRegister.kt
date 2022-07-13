@@ -52,12 +52,12 @@ class MasterRegister {
             handle.begin()
             for (item in itemBeanList) {
                 val selectedItem = dao.getByCode(item.code)
-                if(selectedItem == null) {
-                    // 該当レコードがない場合、新規追加
-                    dao.insertItemBean(item)
-                }else{
+                if(selectedItem != null) {
                     // レコードがある場合、更新
                     dao.updateByCode(item, item.code)
+                }else{
+                    // 該当レコードがない場合、新規追加
+                    dao.insertItemBean(item)
                 }
             }
             handle.commit()
