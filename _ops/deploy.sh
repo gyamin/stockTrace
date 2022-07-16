@@ -33,11 +33,10 @@ function build() {
   cp -f ${jarDir}/${pgName} ${deployDir}/${pgName}
   message "jarファイル配置完了"
 
-  # コントロールシェル配置(上書き)
-  rm -f ${buildDir}/hermes_controller.sh
-  cp -f ${execDir}/hermes_controller.sh ${buildDir}/hermes_controller.sh
-  message "コントロールシェル配置完了"
-
+  # プロパティファイル配置(上書き)
+  rm -f ${deployDir}/application.properties
+  cp -f ${rootDir}/application.properties.${env} ${deployDir}/application.properties
+  message "プロパティファイル配置完了"
 }
 
 # メイン処理
