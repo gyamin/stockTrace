@@ -1,6 +1,6 @@
 # Database
-url=jdbc:postgresql://localhost:5432/prd_stock_trace
-user=stock_trace
+url=jdbc:postgresql://localhost:5432/prd_stocktrace
+user=stocktrace
 password=grPHynn2
 
 # 株価銘柄CSVファイル

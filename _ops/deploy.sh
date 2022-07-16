@@ -28,7 +28,7 @@ function build() {
 
   # jarファイルの配置(上書き)
   jarDir="${rootDir}/build/libs"
-  pgName=$(find ${jarDir} -name "stockTrace-[0-9].[0-9].[0-9]-SNAPSHOT.jar" | xargs basename)
+  pgName=$(find ${jarDir} -name "stockTrace-[0-9].[0-9]-SNAPSHOT.jar" | xargs basename)
   rm -f ${deployDir}/${pgName}
   cp -f ${jarDir}/${pgName} ${deployDir}/${pgName}
   message "jarファイル配置完了"
