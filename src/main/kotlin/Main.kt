@@ -14,6 +14,7 @@ suspend fun main(args: Array<String>) {
     }
 
     if(args[0] == "crawling") {
+        logger.info("START: crawling")
         try {
             // クローリング処理実行
             val dbConnection = DbConnection()
@@ -25,8 +26,13 @@ suspend fun main(args: Array<String>) {
         }
 
     }else if(args[0] == "registerMaster") {
-        // マスタデータ更新処理
-        val masterRegister = MasterRegister()
-        masterRegister.registerItemMaster()
+        logger.info("START: registerMaster")
+        try {
+            // マスタデータ更新処理
+            val masterRegister = MasterRegister()
+            masterRegister.registerItemMaster()
+        } catch (e: Exception) {
+            logger.error("${e.message.toString()}")
+        }
     }
 }
