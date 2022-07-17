@@ -11,13 +11,6 @@ dbUser="stocktrace"
 dbPort="15432"
 dbName="loc_stocktrace"
 
-function execSql() {
-    sqlFilePath=$1
-    dateTime=$(date "+%Y/%m/%d %H:%M:%S")
-    echo "${dateTime}: ${sqlFilePath}"
-    psql -h ${dbHost} -U ${dbUser} -d ${dbName} -f ${sqlFilePath}
-}
-
 # ---------------------------
 # Main
 # ---------------------------
@@ -48,5 +41,6 @@ if [ -z "${sqlFilePath}" ];then
 fi
 
 ## 処理実行
-execSql ${sqlFilePath}
+dateTime=$(date "+%Y%m%d_%H%M%S")
+psql -h ${dbHost} -U ${dbUser} -d ${dbName} -f ${sqlFilePath} -A -F, > "${dateTime}_${sql}.csv"
 # ---------------------------
