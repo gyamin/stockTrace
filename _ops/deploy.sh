@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# 設定
+# 初期化
 shellName=$(basename $0)
 execDir=$(cd $(dirname $0); pwd)
 rootDir=$(cd ${execDir}; cd "./.."; pwd)
