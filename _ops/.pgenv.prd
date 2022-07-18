@@ -1,5 +1,6 @@
 # DB接続設定
 export DB_HOST="localhost"
 export DB_USER="stocktrace"
-export DB_PORT="15432"
-export DB_NAME="loc_stocktrace"
+export DB_PORT="5432"
+export DB_NAME="prd_stocktrace"
+export PGPASSWORD="grPHynn2"

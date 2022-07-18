@@ -46,5 +46,5 @@ source .pgenv.${env}
 
 ## 処理実行
 dateTime=$(date "+%Y%m%d_%H%M%S")
-psql -h ${DB_HOST} -U ${DB_USER} -d ${DB_NAME} -f ${sqlFilePath} -A -F,
+psql -h ${DB_HOST} -U ${DB_USER} -d ${DB_NAME} -f ${sqlFilePath} -A -F, -o ${dateTime}_${sql}.csv
 # ---------------------------
