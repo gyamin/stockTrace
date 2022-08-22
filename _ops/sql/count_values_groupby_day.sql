@@ -1,0 +1,1 @@
+select trading_date, count(1) from stock_values group by trading_date order by trading_date desc;

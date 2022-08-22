@@ -1,18 +1,6 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-plugins {
-    kotlin("jvm") version "1.7.10"
-    application
-    java
-}
-
-group = "me.gyamin"
-version = "1.0-SNAPSHOT"
-
-repositories {
-    mavenCentral()
-}
-
+### build.gradle.kts への依存性追加
+```kotlin
 dependencies {
     testImplementation(kotlin("test"))
     implementation("org.jsoup:jsoup:1.14.3")
@@ -27,24 +15,23 @@ dependencies {
     implementation("org.apache.logging.log4j:log4j-api-kotlin:1.1.0")
     implementation("org.slf4j:slf4j-log4j12:1.7.36")
 }
+```
 
-tasks.test {
-    useJUnitPlatform()
-}
+### ログ出力
+`crawler/CrawlerRunner.kt` 参照
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "17"
-}
-application {
-    mainClass.set("MainKt")
-}
 
-tasks.jar {
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    manifest {
-        attributes["Main-Class"]= "MainKt"
-    }
-    configurations["runtimeClasspath"].forEach { file: File ->
-        from(zipTree(file.absoluteFile))
-    }
+## エラー対処
+- `SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".` がログに表示される
+```
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+```
+- 対処
+dependencies に slf4j-log4j12 を追加する。
+```kotlin
+dependencies {
+    implementation("org.slf4j:slf4j-log4j12:1.7.36")
 }
+```
