@@ -16,6 +16,8 @@ class LogAnalyzer {
         val fileName = "logs/stockTrace_20220718.log"
         File(fileName).forEachLine {
             println(it)
+            // 成功ログ
+
         }
 
     }
