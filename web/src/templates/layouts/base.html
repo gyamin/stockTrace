@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+</head>
+<body>
+<div class="base-container">
+    <!-- ヘッダー -->
+	{% include "layouts/header.html" %}
+
+    <!-- メインコンテンツ -->
+    {%- block content %}{% endblock %}
+
+        <!-- フッター -->
+	{% include "layouts/footer.html" %}
+</div>
+</body>
+</html>
