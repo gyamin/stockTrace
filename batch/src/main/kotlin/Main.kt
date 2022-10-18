@@ -4,7 +4,6 @@ import crawler.LogAnalyzer
 import crawler.db.DbConnection
 import org.apache.logging.log4j.kotlin.logger
 import java.time.LocalDate
-import java.util.*
 import kotlin.system.exitProcess
 
 suspend fun main(args: Array<String>) {
