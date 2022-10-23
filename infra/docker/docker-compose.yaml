@@ -13,3 +13,11 @@ services:
       - "15432:5432"
     volumes:
       - ./postgres/data:/var/lib/postgresql/data
+
+  stock_trace_python :
+    container_name: stock_trace_python
+    build: ./python
+    volumes:
+      - ./../../web/src:/app
+    ports:
+      - "5001:5000"

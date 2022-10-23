@@ -1,10 +1,15 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect
+from controller.top import bp_top
 
 app = Flask(__name__)
 
+# コントローラ登録
+app.register_blueprint(bp_top)
+
+
 @app.route("/")
 def top():
-    return render_template('top.html')
+    return redirect('/top')
 
 
 if __name__ == '__main__':
