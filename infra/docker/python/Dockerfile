@@ -12,3 +12,12 @@ ENV TERM xterm
 RUN apt-get install -y vim
 RUN pip install --upgrade pip
 RUN pip install --upgrade setuptools
+
+# Flask app Libraries
+RUN pip install Flask
+RUN pip install SQLAlchemy
+RUN pip install psycopg2
+RUN pip install python-dotenv
+
+WORKDIR /app
+CMD ["python", "app.py"]
