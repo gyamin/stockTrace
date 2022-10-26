@@ -20,4 +20,5 @@ RUN pip install psycopg2
 RUN pip install python-dotenv
 
 WORKDIR /app
+EXPOSE 5001
 CMD ["python", "app.py"]

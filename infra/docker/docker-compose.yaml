@@ -20,4 +20,4 @@ services:
     volumes:
       - ./../../web/src:/app
     ports:
-      - "5001:5000"
+      - "5001:5001"
