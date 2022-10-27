@@ -6,4 +6,6 @@ bp_top = Blueprint('top', __name__)
 def top():
 
 
+
+
     return render_template('top.html', title="トップ")
