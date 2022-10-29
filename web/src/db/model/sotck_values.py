@@ -24,3 +24,26 @@ class StockValues:
                                 Column('created_at', DateTime),
                                 Column('updated_at', DateTime),
                                 )
+
+    def get_rate_up_top_n(self, num):
+        sql = text(
+            """
+            select
+                trading_date,
+                i.code,
+                trading_name,
+                current_price,
+                (current_price - the_day_before_price) as diff,
+                ((current_price - the_day_before_price) / current_price) * 100 ratio
+            from stock_values sv
+            inner join items i on sv.code = i.code
+            where trading_date = (select MAX(trading_date) from stock_values)
+                and (current_price - the_day_before_price) is not null
+            order by ratio desc
+            limit :num
+        """
+        )
+
+        rows = self.conn.execute(sql, {"num": num}).fetchall()
+
+        return rows
