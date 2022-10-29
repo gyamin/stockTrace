@@ -1,6 +1,7 @@
-from sqlalchemy import Table, Column, Integer, String, MetaData, ForeignKey, text
+from sqlalchemy import Table, Column, Integer, String, MetaData, ForeignKey, text, join
 from sqlalchemy.types import Date, DateTime, Numeric
 from sqlalchemy.sql import select
+from db.model.items import Items
 
 
 class StockValues:
@@ -8,22 +9,22 @@ class StockValues:
     def __init__(self, conn):
         self.conn = conn
         metadata = MetaData()
-        self.postalCode = Table('stock_values', metadata,
-                                Column('code', String, primary_key=True),
-                                Column('trading_date', Date, primary_key=True),
-                                Column('current_price', Numeric(11, 1)),
-                                Column('the_day_before_price', Numeric(11, 1)),
-                                Column('start_price', Numeric(11, 1)),
-                                Column('high_price', Numeric(11, 1)),
-                                Column('low_price', Numeric(11, 1)),
-                                Column('year_high_price', Numeric(11, 1)),
-                                Column('year_high_price_date', Date),
-                                Column('year_low_price', Numeric(11, 1)),
-                                Column('year_low_price_date', Date),
-                                Column('trading_unit', String),
-                                Column('created_at', DateTime),
-                                Column('updated_at', DateTime),
-                                )
+        self.tbl_stock_values = Table('stock_values', metadata,
+                                      Column('code', String, primary_key=True),
+                                      Column('trading_date', Date, primary_key=True),
+                                      Column('current_price', Numeric(11, 1)),
+                                      Column('the_day_before_price', Numeric(11, 1)),
+                                      Column('start_price', Numeric(11, 1)),
+                                      Column('high_price', Numeric(11, 1)),
+                                      Column('low_price', Numeric(11, 1)),
+                                      Column('year_high_price', Numeric(11, 1)),
+                                      Column('year_high_price_date', Date),
+                                      Column('year_low_price', Numeric(11, 1)),
+                                      Column('year_low_price_date', Date),
+                                      Column('trading_unit', String),
+                                      Column('created_at', DateTime),
+                                      Column('updated_at', DateTime),
+                                      )
 
     def get_rate_up_top_n(self, num):
         sql = text(
@@ -45,5 +46,21 @@ class StockValues:
         )
 
         rows = self.conn.execute(sql, {"num": num}).fetchall()
+
+        return rows
+
+    def get_rate_down_bottom_n(self, num):
+        tbl_stock_values = self.tbl_stock_values
+        tbl_items = Items(self.conn).tbl_items
+        s = select(
+            tbl_stock_values.c.trading_date,
+            tbl_items.c.code,
+            tbl_items.c.trading_name,
+            tbl_stock_values.c.current_price
+        ).where(tbl_stock_values.c.trading_date == '2022-10-20')
+        j = join(tbl_stock_values, tbl_items, tbl_stock_values.c.code == tbl_items.c.code)
+        stmt = s.select_from(j)
+        print(stmt)
+        rows = self.conn.execute(stmt).fetchall()
 
         return rows
