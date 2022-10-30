@@ -1,4 +1,4 @@
-from sqlalchemy import Table, Column, Integer, String, MetaData, ForeignKey, text, join
+from sqlalchemy import Table, Column, Integer, String, MetaData, ForeignKey, text, join, func
 from sqlalchemy.types import Date, DateTime, Numeric
 from sqlalchemy.sql import select
 from db.model.items import Items
@@ -27,6 +27,11 @@ class StockValues:
                                       )
 
     def get_rate_up_top_n(self, num):
+        """
+        株価上昇率TOP n件 取得
+        :param num:
+        :return:
+        """
         sql = text(
             """
             select
@@ -34,7 +39,7 @@ class StockValues:
                 i.code,
                 trading_name,
                 current_price,
-                (current_price - the_day_before_price) as diff,
+                (current_price - the_day_before_price) as day_diff,
                 ((current_price - the_day_before_price) / current_price) * 100 ratio
             from stock_values sv
             inner join items i on sv.code = i.code
@@ -50,17 +55,53 @@ class StockValues:
         return rows
 
     def get_rate_down_bottom_n(self, num):
+        """
+        株価下落率TOP n件 取得
+        :param num:
+        :return:
+        """
+
         tbl_stock_values = self.tbl_stock_values
         tbl_items = Items(self.conn).tbl_items
+
+        max_date = select(func.max(tbl_stock_values.c.trading_date)).scalar_subquery()
+
         s = select(
             tbl_stock_values.c.trading_date,
             tbl_items.c.code,
             tbl_items.c.trading_name,
-            tbl_stock_values.c.current_price
-        ).where(tbl_stock_values.c.trading_date == '2022-10-20')
+            tbl_stock_values.c.current_price,
+            (tbl_stock_values.c.current_price - tbl_stock_values.c.the_day_before_price).label("day_diff"),
+            (
+                (tbl_stock_values.c.current_price - tbl_stock_values.c.the_day_before_price) /
+                tbl_stock_values.c.the_day_before_price * 100
+            ).label("ratio")
+        ).where(tbl_stock_values.c.trading_date == max_date)
         j = join(tbl_stock_values, tbl_items, tbl_stock_values.c.code == tbl_items.c.code)
-        stmt = s.select_from(j)
-        print(stmt)
+
+        stmt = s.select_from(j).order_by("ratio").limit(num)
+
         rows = self.conn.execute(stmt).fetchall()
+
+        return rows
+
+    def get_n_days_result(self, n_day):
+        sql = text(
+            """
+            select
+                trading_date,
+                count(1) as クローリング数,
+                count(case when (current_price - the_day_before_price is not null) then '株価取得数' else null end) as 株価取得数,
+                count(case when (current_price - the_day_before_price > 0) then '値上がり' else null end) as 値上がり,
+                count(case when (current_price - the_day_before_price < 0) then '値下がり' else null end) as 値下がり,
+                count(case when (current_price - the_day_before_price = 0) then '変わらず' else null end) as 変わらず
+            from stock_values
+            group by trading_date
+            order by trading_date desc
+            limit :n_day;
+            """
+        )
+
+        rows = self.conn.execute(sql, {"n_day": n_day}).fetchall()
 
         return rows
