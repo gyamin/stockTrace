@@ -22,13 +22,36 @@
                     <td>{{ elem["trading_name"] }}</td>
                     <td>{{ elem["current_price"] }}</td>
                     <td>{{ elem["day_diff"] }}</td>
-                    <td>{{ elem["ratio"] }}</td>
+                    <td>{{ elem["ratio"]|round(2, 'common') }}</td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
-<!--        {% for elem in data["top_100"] %}-->
-<!--            {{elem}}-->
-<!--        {% endfor %}-->
+    </div>
+
+    <div class="bottom">
+        <h2>値下がり銘柄100</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>株価コード</th>
+                    <th>銘柄名</th>
+                    <th>現在値</th>
+                    <th>前日比(金額)</th>
+                    <th>前日比(比率)</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for elem in data["bottom_100"] %}
+                <tr>
+                    <td>{{ elem["code"] }}</td>
+                    <td>{{ elem["trading_name"] }}</td>
+                    <td>{{ elem["current_price"] }}</td>
+                    <td>{{ elem["day_diff"] }}</td>
+                    <td>{{ elem["ratio"]|round(2, 'common') }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
 {%- endblock %}
