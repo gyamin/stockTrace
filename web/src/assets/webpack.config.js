@@ -2,13 +2,14 @@
 const path = require('path');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
+// CSS
 module.exports = {
   //エントリポイント
   entry: './src/index.js',
   //出力先
   output: {
     filename: 'app.js',
-    path: path.resolve(__dirname, '../static/dist'),
+    path: path.resolve(__dirname, '../static/dist/css'),
   },
   module: {
     rules: [
@@ -35,3 +36,14 @@ module.exports = {
     ignored: /node_modules/  //正規表現で指定
   },
 };
+
+// JavaScript
+module.exports = {
+  entry: {
+    top: './src/js/top.js',
+  },
+  output: {
+    filename: '[name].bundle.js',
+    path: path.resolve(__dirname, '../static/dist/js'),
+  }
+}
