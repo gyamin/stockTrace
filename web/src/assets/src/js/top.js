@@ -9,4 +9,4 @@ const Top = {
   delimiters: ["[[","]]"]
 }
 
-createApp(Top).mount('#app')
+createApp(Top).mount('#app-test')

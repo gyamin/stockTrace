@@ -5,10 +5,14 @@
         var data = JSON.parse('{{ json_data | safe }}')
     </script>
 
-    <div id="vue-app">
-        <p>[[ message ]]</p>
+    <div id="app-test">
+        <h1>テスト</h1>
+        <p>[[message]]</p>
+    </div>
+
+    <div>
         <h1>これはtop.htmlの内容を表示</h1>
-        <img src="/static/お茶碗と箸.png">
+<!--        <img src="/static/お茶碗と箸.png">-->
 
         <div class="top">
             <h2>値上がり銘柄100</h2>
@@ -62,5 +66,6 @@
             </table>
         </div>
     </div>
+
     <script src="/static/dist/js/top.bundle.js"></script>
 {%- endblock %}
