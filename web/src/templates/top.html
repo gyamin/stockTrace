@@ -5,17 +5,9 @@
         var data = JSON.parse('{{ json_data | safe }}')
     </script>
 
-    <div id="app-test">
-        <h1>テスト</h1>
-        <p>[[message]]</p>
-    </div>
-
-    <div>
-        <h1>これはtop.htmlの内容を表示</h1>
-<!--        <img src="/static/お茶碗と箸.png">-->
-
-        <div class="top">
-            <h2>値上がり銘柄100</h2>
+    <div id="vue-app">
+        <div class="top_100">
+            <h2>値上がり上位100銘柄</h2>
             <table>
                 <thead>
                     <tr>
@@ -27,21 +19,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                {% for elem in data["top_100"] %}
-                    <tr>
-                        <td>{{ elem["code"] }}</td>
-                        <td>{{ elem["trading_name"] }}</td>
-                        <td>{{ elem["current_price"] }}</td>
-                        <td>{{ elem["day_diff"] }}</td>
-                        <td>{{ elem["ratio"]|round(2, 'common') }}</td>
+                    <tr v-for="elem in top_100">
+                        <td>[[ elem["code"] ]]</td>
+                        <td>[[ elem["trading_name"] ]]</td>
+                        <td>[[ elem["current_price"] ]]</td>
+                        <td>[[ elem["day_diff"] ]]</td>
+                        <td>[[ elem["ratio"] ]]</td>
                     </tr>
-                {% endfor %}
                 </tbody>
             </table>
         </div>
 
-        <div class="bottom">
-            <h2>値下がり銘柄100</h2>
+        <div class="bottom_100">
+            <h2>値下がり下位100銘柄</h2>
             <table>
                 <thead>
                     <tr>
@@ -53,18 +43,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                {% for elem in data["bottom_100"] %}
-                    <tr>
-                        <td>{{ elem["code"] }}</td>
-                        <td>{{ elem["trading_name"] }}</td>
-                        <td>{{ elem["current_price"] }}</td>
-                        <td>{{ elem["day_diff"] }}</td>
-                        <td>{{ elem["ratio"]|round(2, 'common') }}</td>
+                    <tr v-for="elem in bottom_100">
+                        <td>[[ elem["code"] ]]</td>
+                        <td>[[ elem["trading_name"] ]]</td>
+                        <td>[[ elem["current_price"] ]]</td>
+                        <td>[[ elem["day_diff"] ]]</td>
+                        <td>[[ elem["ratio"] ]]</td>
                     </tr>
-                {% endfor %}
                 </tbody>
             </table>
         </div>
+
     </div>
 
     <script src="/static/dist/js/top.bundle.js"></script>

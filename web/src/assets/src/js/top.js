@@ -3,10 +3,12 @@ import { createApp } from 'vue'
 const Top = {
   data() {
     return {
-      message: 'Hello Vue!!'
+      top_100: data["top_100"],
+      bottom_100: data["bottom_100"]
     }
   },
   delimiters: ["[[","]]"]
 }
 
-createApp(Top).mount('#app-test')
+
+let app = createApp(Top).mount('#vue-app')
