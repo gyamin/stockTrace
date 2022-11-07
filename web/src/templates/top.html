@@ -5,8 +5,8 @@
         var data = JSON.parse('{{ json_data | safe }}')
     </script>
 
-    <div id="vue-app">
-        <div class="top_100">
+    <div id="vue-top" class="page-top">
+        <div class="top-100">
             <h2>値上がり上位100銘柄</h2>
             <table>
                 <thead>
@@ -22,7 +22,7 @@
                     <tr v-for="elem in top_100">
                         <td>[[ elem["code"] ]]</td>
                         <td>[[ elem["trading_name"] ]]</td>
-                        <td>[[ elem["current_price"] ]]</td>
+                        <td>[[ toYen(elem["current_price"]) ]]</td>
                         <td>[[ elem["day_diff"] ]]</td>
                         <td>[[ elem["ratio"] ]]</td>
                     </tr>
@@ -30,7 +30,7 @@
             </table>
         </div>
 
-        <div class="bottom_100">
+        <div class="bottom-100">
             <h2>値下がり下位100銘柄</h2>
             <table>
                 <thead>

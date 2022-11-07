@@ -3,9 +3,9 @@ const path = require('path');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 // CSS
-module.exports = {
+const css_config = {
   //エントリポイント
-  entry: './src/index.js',
+  entry: './src/css/index.js',
   //出力先
   output: {
     filename: 'app.js',
@@ -38,7 +38,7 @@ module.exports = {
 };
 
 // JavaScript
-module.exports = {
+const js_config = {
   entry: {
     top: './src/js/top.js',
   },
@@ -51,4 +51,6 @@ module.exports = {
       vue$: 'vue/dist/vue.esm-bundler.js'
     }
   }
-}
+};
+
+module.exports = [css_config, js_config];
