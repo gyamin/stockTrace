@@ -91,10 +91,10 @@ class StockValues:
             select
                 trading_date,
                 count(1) as クローリング数,
-                count(case when (current_price - the_day_before_price is not null) then '株価取得数' else null end) as 株価取得数,
-                count(case when (current_price - the_day_before_price > 0) then '値上がり' else null end) as 値上がり,
-                count(case when (current_price - the_day_before_price < 0) then '値下がり' else null end) as 値下がり,
-                count(case when (current_price - the_day_before_price = 0) then '変わらず' else null end) as 変わらず
+                count(case when (current_price - the_day_before_price is not null) then 'total' else null end) as "total",
+                count(case when (current_price - the_day_before_price > 0) then 'rise' else null end) as "rise",
+                count(case when (current_price - the_day_before_price < 0) then 'drop' else null end) as "drop",
+                count(case when (current_price - the_day_before_price = 0) then 'unchanged' else null end) as "unchanged"
             from stock_values
             group by trading_date
             order by trading_date desc

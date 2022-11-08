@@ -1,11 +1,18 @@
+@import "common/common.scss";
 
-.page-top {
-  .top-100 {
-    margin: 20px auto;
+@mixin top_100_table {
+  table {
+      width: 100%;
 
-    table {
       thead {
-        display: block;
+        border-bottom: 1px solid black;
+        color: #ffffff;
+
+        th {
+          background: $sub-color;
+          position: sticky;
+          top: 0;
+        }
 
         th:nth-of-type(1) {
           width: 10%;
@@ -23,11 +30,8 @@
           width: 20%;
         }
       }
-      tbody {
-        display: block;
-        height: 300px;
-        overflow: scroll;
 
+      tbody {
         td:nth-of-type(1) {
           width: 10%;
         }
@@ -47,6 +51,34 @@
           width: 20%;
         }
       }
+    }
+}
+
+.page-top {
+
+  .top-100 {
+    font-size: 1.1rem;
+    margin: 40px 60px;
+
+    .content {
+      height: 300px;
+      overflow: scroll;
+      margin: 20px auto;
+
+      @include top_100_table
+    }
+  }
+
+  .bottom-100 {
+    font-size: 1.1rem;
+    margin: 40px 60px;
+
+    .content {
+      height: 300px;
+      overflow: scroll;
+      margin: 20px auto;
+
+      @include top_100_table
     }
   }
 }

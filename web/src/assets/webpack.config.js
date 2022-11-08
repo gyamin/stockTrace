@@ -46,6 +46,7 @@ const js_config = {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, '../static/dist/js'),
   },
+  devtool: 'source-map',
   resolve: {
     alias: {
       vue$: 'vue/dist/vue.esm-bundler.js'

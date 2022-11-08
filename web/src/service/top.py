@@ -17,6 +17,6 @@ class Top:
         view_data["bottom_100"] = database.convert_dic(rows)
 
         rows = model_stock_values.get_n_days_result(7)
-        view_data["7days_results"] = database.convert_dic(rows)
+        view_data["days_results"] = database.convert_dic(rows)
 
         return view_data
