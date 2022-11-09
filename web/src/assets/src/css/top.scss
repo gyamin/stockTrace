@@ -55,15 +55,44 @@
 }
 
 .page-top {
+  margin: 30px auto;
+
+  .day-summary {
+    font-size: 1.1rem;
+    margin: 20px 80px;
+
+    .content {
+      margin: 10px auto;
+
+      table {
+        width: 100%;
+
+        thead {
+        border-bottom: 1px solid black;
+        color: #ffffff;
+          th {
+            background: $sub-color;
+          }
+        }
+
+        tbody {
+          td {
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+
 
   .top-100 {
     font-size: 1.1rem;
-    margin: 40px 60px;
+    margin: 40px 80px;
 
     .content {
       height: 300px;
       overflow: scroll;
-      margin: 20px auto;
+      margin: 10px auto;
 
       @include top_100_table
     }
@@ -71,12 +100,12 @@
 
   .bottom-100 {
     font-size: 1.1rem;
-    margin: 40px 60px;
+    margin: 40px 80px;
 
     .content {
       height: 300px;
       overflow: scroll;
-      margin: 20px auto;
+      margin: 10px auto;
 
       @include top_100_table
     }

@@ -9,10 +9,28 @@
         <div class="day-summary">
             <h2>[[ days_results[0]['trading_date'] ]]のサマリ</h2>
             <div class="content">
-                [[ days_results[0]['total'] ]]
-                [[ days_results[0]['rise'] ]]
-                [[ days_results[0]['drop'] ]]
-                [[ days_results[0]['unchanged'] ]]
+                <table>
+                    <thead>
+                        <tr>
+                            <th>最新クローリング日</th>
+                            <th>データ取得数</th>
+                            <th>前日比取得数</th>
+                            <th>値上り数</th>
+                            <th>値下がり数</th>
+                            <th>変わらず数</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>[[ days_results[0]['trading_date'] ]]</td>
+                            <td>[[ days_results[0]['total_count'] ]]</td>
+                            <td>[[ days_results[0]['ratio_count'] ]]</td>
+                            <td>[[ days_results[0]['rise'] ]]</td>
+                            <td>[[ days_results[0]['drop'] ]]</td>
+                            <td>[[ days_results[0]['unchanged'] ]]</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
 

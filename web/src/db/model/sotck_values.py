@@ -90,8 +90,8 @@ class StockValues:
             """
             select
                 trading_date,
-                count(1) as クローリング数,
-                count(case when (current_price - the_day_before_price is not null) then 'total' else null end) as "total",
+                count(1) as "total_count",
+                count(case when (current_price - the_day_before_price is not null) then 'ratio_count' else null end) as "ratio_count",
                 count(case when (current_price - the_day_before_price > 0) then 'rise' else null end) as "rise",
                 count(case when (current_price - the_day_before_price < 0) then 'drop' else null end) as "drop",
                 count(case when (current_price - the_day_before_price = 0) then 'unchanged' else null end) as "unchanged"
