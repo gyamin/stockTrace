@@ -6,7 +6,8 @@
     </script>
 
     <div id="vue-top" class="page-top">
-        <div class="day-summary">
+        <div class="ranking-wrapper">
+            <div class="day-summary">
             <h2>[[ days_results[0]['trading_date'] ]]のサマリ</h2>
             <div class="content">
                 <table>
@@ -34,7 +35,7 @@
             </div>
         </div>
 
-        <div class="top-100">
+            <div class="top-100">
             <h2>値上り 上位100銘柄</h2>
             <div class="content">
                 <table>
@@ -60,7 +61,7 @@
             </div>
         </div>
 
-        <div class="bottom-100">
+            <div class="bottom-100">
             <h2>値下がり下位100銘柄</h2>
             <div class="content">
                 <table>
@@ -86,7 +87,9 @@
             </div>
         </div>
 
+        </div>
     </div>
 
     <script src="/static/dist/js/top.bundle.js"></script>
+
 {%- endblock %}
