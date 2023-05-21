@@ -1,0 +1,95 @@
+{%- extends "layouts/base.html" %}
+{%- block content %}
+
+    <script type="text/javascript">
+        var data = JSON.parse('{{ json_data | safe }}')
+    </script>
+
+    <div id="vue-top" class="page-top">
+        <div class="ranking-wrapper">
+            <div class="day-summary">
+            <h2>[[ days_results[0]['trading_date'] ]]のサマリ</h2>
+            <div class="content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>最新クローリング日</th>
+                            <th>データ取得数</th>
+                            <th>前日比取得数</th>
+                            <th>値上り数</th>
+                            <th>値下がり数</th>
+                            <th>変わらず数</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>[[ days_results[0]['trading_date'] ]]</td>
+                            <td>[[ days_results[0]['total_count'] ]]</td>
+                            <td>[[ days_results[0]['ratio_count'] ]]</td>
+                            <td>[[ days_results[0]['rise'] ]]</td>
+                            <td>[[ days_results[0]['drop'] ]]</td>
+                            <td>[[ days_results[0]['unchanged'] ]]</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+            <div class="top-100">
+            <h2>値上り 上位100銘柄</h2>
+            <div class="content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>株価コード</th>
+                            <th>銘柄名</th>
+                            <th>現在値</th>
+                            <th>前日比(金額)</th>
+                            <th>前日比(比率)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="elem in top_100">
+                            <td>[[ elem["code"] ]]</td>
+                            <td>[[ elem["trading_name"] ]]</td>
+                            <td>[[ elem["current_price"] ]]</td>
+                            <td>[[ elem["day_diff"] ]]</td>
+                            <td>[[ roundOff(elem["ratio"]) ]]%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+            <div class="bottom-100">
+            <h2>値下がり下位100銘柄</h2>
+            <div class="content">
+                <table>
+                <thead>
+                    <tr>
+                        <th>株価コード</th>
+                        <th>銘柄名</th>
+                        <th>現在値</th>
+                        <th>前日比(金額)</th>
+                        <th>前日比(比率)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="elem in bottom_100">
+                        <td>[[ elem["code"] ]]</td>
+                        <td>[[ elem["trading_name"] ]]</td>
+                        <td>[[ elem["current_price"] ]]</td>
+                        <td>[[ elem["day_diff"] ]]</td>
+                        <td>[[ roundOff(elem["ratio"]) ]]%</td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
+
+        </div>
+    </div>
+
+    <script src="/static/dist/js/top.bundle.js"></script>
+
+{%- endblock %}

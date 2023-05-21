@@ -1,0 +1,42 @@
+@import "common";
+header {
+
+  .container {
+    .title > h1 {
+      background-color: $main-color;
+      border-radius: 30px;
+      font-size: 3.0rem;
+      padding: 30px;
+      margin: 20px auto;
+      width: 300px;
+    }
+    .menu {
+      background-color: $sub-color;
+      margin: 20px 0 0 0;
+
+      ul {
+        display: flex;
+        align-items: center;
+        text-align: center;
+        height: 50px;
+
+
+        li {
+          //background-color: $sub-color;
+          //border-radius: 5px;
+          flex: 1;
+          margin: 1px;
+          padding: 8px;
+
+          > a {
+            font-size: 1.2rem;
+            color: #ffffff;
+          }
+          > a:hover {
+            color: $main-color;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+$main-color: #ffd700;
+$sub-color: #665700;
+$background-color: #fff7cc;
+$font-color: #332b00;
+
+body {
+  color: $font-color;
+  font-size: 12px;
+  font-family: "Helvetica Neue", "Helvetica", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Arial", "Yu Gothic", "Meiryo", sans-serif;
+}
+
+body, header, footer, div, ul, li, h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  padding: 0;
+}
+
+ol, ul {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+  color: $font-color;
+}
+

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>株価クローラ | {{title}}</title>
+</head>
+<body>
+<div class="base-container">
+    <!-- ヘッダー -->
+	{% include "layouts/header.html" %}
+
+    <!-- メインコンテンツ -->
+    {%- block content %}{% endblock %}
+
+        <!-- フッター -->
+	{% include "layouts/footer.html" %}
+</div>
+<link rel="stylesheet" type="text/css" href="/static/dist/css/style.css" />
+</body>
+</html>

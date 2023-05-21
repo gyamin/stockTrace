@@ -1,4 +1,0 @@
-.gradle
-build
-logs
-_infra/docker/postgres/data
