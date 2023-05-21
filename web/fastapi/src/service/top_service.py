@@ -2,7 +2,7 @@ from db import database
 from db.model.sotck_values import StockValues
 
 
-class Top:
+class TopService:
 
     @staticmethod
     def get_index_data():
