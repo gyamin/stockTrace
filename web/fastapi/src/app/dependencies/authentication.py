@@ -1,5 +1,4 @@
-from typing import Annotated
-from fastapi import Header, Request, HTTPException
+from fastapi import Request
 from app.exceptions.AuthenticationException import AuthenticationException
 
 
