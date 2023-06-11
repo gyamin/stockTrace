@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS stock_values (
 
 CREATE TABLE IF NOT EXISTS users (
     user_id VARCHAR(100) PRIMARY KEY,
+    password varchar(255) DEFAULT NULL,
     family_name varchar(50) NOT NULL,
     first_name varchar(50) NOT NULL,
     birth_day DATE DEFAULT NULL,
@@ -42,8 +43,11 @@ CREATE TABLE IF NOT EXISTS users (
     deleted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS user_tokens (
+CREATE TABLE IF NOT EXISTS user_auth_info (
     user_id VARCHAR(100) PRIMARY KEY,
     access_token VARCHAR(255) UNIQUE,
-    access_token_expired_at TIMESTAMP
+    access_token_expired_at TIMESTAMP,
+    session_id VARCHAR(255) UNIQUE,
+    session_id_expired_at TIMESTAMP,
+    foreign key (user_id) references users(user_id)
 );
