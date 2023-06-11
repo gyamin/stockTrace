@@ -19,3 +19,25 @@ class Users:
                                Column('updated_at', DateTime),
                                Column('deleted_at', DateTime)
                                )
+
+    def get_user_by_id_pw(self, id: String, password: String):
+        """
+        id, pwが合致するユーザを取得する
+        :param password:
+        :param id:
+        :return:
+        """
+
+
+
+        sql = text(
+            """
+            select * from users
+            where user_id = :id
+            and password = :password
+            """
+        )
+
+        rows = self.conn.execute(sql, {"num": num}).fetchall()
+
+        return rows
