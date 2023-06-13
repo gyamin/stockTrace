@@ -29,7 +29,6 @@ async def login_page(request: Request):
 async def exec_login(request: Request):
     # ログイン処理
 
-
     return RedirectResponse('/auth/top', status_code=status.HTTP_302_FOUND)
 
 

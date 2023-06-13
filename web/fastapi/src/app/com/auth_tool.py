@@ -7,7 +7,7 @@ def get_hash(data):
     return hs
 
 
-def create_token_string():
+def create_random_string():
     token = secrets.token_hex()
     return token
 

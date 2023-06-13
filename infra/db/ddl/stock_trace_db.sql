@@ -31,7 +31,8 @@ CREATE TABLE IF NOT EXISTS stock_values (
 );
 
 CREATE TABLE IF NOT EXISTS users (
-    user_id VARCHAR(100) PRIMARY KEY,
+    user_id UUID PRIMARY KEY,
+    login_id VARCHAR(100) UNIQUE NOT NULL,
     password varchar(255) DEFAULT NULL,
     family_name varchar(50) NOT NULL,
     first_name varchar(50) NOT NULL,
@@ -44,7 +45,7 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 CREATE TABLE IF NOT EXISTS user_auth_info (
-    user_id VARCHAR(100) PRIMARY KEY,
+    user_id UUID PRIMARY KEY,
     access_token VARCHAR(255) UNIQUE,
     access_token_expired_at TIMESTAMP,
     session_id VARCHAR(255) UNIQUE,

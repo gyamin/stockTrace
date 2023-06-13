@@ -28,8 +28,6 @@ class Users:
         :return:
         """
 
-
-
         sql = text(
             """
             select * from users

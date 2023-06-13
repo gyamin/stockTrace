@@ -41,3 +41,7 @@ class UserAuthInfo:
 
         rows = self.conn.execute(sql, {"session_id": session_id}).fetchall()
         return rows
+
+    def create_user_token(self, user_auth_info: {}):
+        ret = self.tbl_user_tokens.insert().values(user_auth_info)
+
