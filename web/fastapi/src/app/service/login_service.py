@@ -1,24 +1,25 @@
 from fastapi.requests import Request
 import datetime
 from app.db import database
-from app.db.model import users, user_auth_info
+from app.db.dao import users, user_auth_info
 from app.com import auth_tool
 
 
 class LoginService:
     @staticmethod
-    def login(self, request: Request):
-        login_id = request.get('login_id')
+    def login(login_id, password):
         # パスワードハッシュ化
-        hs = auth_tool.get_hash(request.get('password'))
+        hs = auth_tool.get_hash(password)
 
         conn = database.engine.connect()
 
         model_users = users.Users(conn)
-        user = model_users.get_user_by_id_pw(login_id, hs)
+        users_rs = model_users.get_user_by_id_pw(login_id, hs)
 
-        if len(user) == 1:
+        if len(users_rs) == 1:
             # ユーザが存在した場合
+            user = users_rs[0]
+
             # トークン、セッション生成
             token = auth_tool.create_random_string()
             session = auth_tool.create_random_string()
@@ -28,7 +29,7 @@ class LoginService:
             expired_at = current_time + datetime.timedelta(days=1)
 
             model_user_auth_info = user_auth_info.UserAuthInfo(conn)
-            model_user_auth_info.create_user_token(
+            ret = model_user_auth_info.create_user_token(
                 {
                     "user_id": user.user_id,
                     "access_token": token,
@@ -37,3 +38,11 @@ class LoginService:
                     "session_id_expired_at": expired_at,
                 }
             )
+            conn.commit()
+
+            return ret
+
+
+
+
+

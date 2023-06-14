@@ -4,15 +4,17 @@ from sqlalchemy.sql import select
 
 
 class UserAuthInfo:
+    metadata = MetaData()
+    meta_user_auth_info = Table('user_auth_info', metadata,
+                                Column('user_id', String, primary_key=True),
+                                Column('access_token', String),
+                                Column('access_token_expired_at', DateTime),
+                                Column('session_id', String),
+                                Column('session_id_expired_at', DateTime)
+                                )
 
     def __init__(self, conn):
         self.conn = conn
-        metadata = MetaData()
-        self.tbl_user_tokens = Table('user_auth_info', metadata,
-                                     Column('user_id', String, primary_key=True),
-                                     Column('access_token', String),
-                                     Column('access_token_expired_at', DateTime)
-                                     )
 
     def get_user_token(self, access_token: String):
         sql = text(
@@ -43,5 +45,5 @@ class UserAuthInfo:
         return rows
 
     def create_user_token(self, user_auth_info: {}):
-        ret = self.tbl_user_tokens.insert().values(user_auth_info)
-
+        ret = self.conn.execute(self.meta_user_auth_info.insert(), user_auth_info)
+        print(ret)

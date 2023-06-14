@@ -1,8 +1,8 @@
 from fastapi import Request, Cookie
 from typing import Union
-from app.exceptions.AuthenticationPageException import AuthenticationPageException
+from app.http.exceptions.AuthenticationPageException import AuthenticationPageException
 from app.db import database
-from app.db.model.user_auth_info import UserAuthInfo
+from app.db.dao.user_auth_info import UserAuthInfo
 
 
 async def check_token_header(request: Request):

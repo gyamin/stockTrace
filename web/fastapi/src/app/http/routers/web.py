@@ -1,11 +1,11 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Form
 from fastapi.requests import Request
-from fastapi.responses import RedirectResponse
+from fastapi.responses import Response, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from starlette import status
 from app.service import top_service
-from app.routers.dependencies.authentication import check_token_header
-from app.com.logging import logger
+from app.service import login_service
+from app.http.routers.dependencies.authentication import check_token_header
 import json
 
 router = APIRouter()
@@ -26,18 +26,21 @@ async def login_page(request: Request):
 
 
 @router.post("/login", tags=["webpage"])
-async def exec_login(request: Request):
+async def exec_login(login_id: str = Form(), passwd: str = Form()):
     # ログイン処理
+    service = login_service.LoginService()
+    auth_info = service.login(login_id, passwd)
 
+    response = RedirectResponse('/auth/top', status_code=status.HTTP_302_FOUND)
+    response.set_cookie(key="session_id", value=response)
+
+    # response.set_cookie(key="session_id", value="hoge")
     return RedirectResponse('/auth/top', status_code=status.HTTP_302_FOUND)
 
 
 @router.get("/hello-html", tags=["test"])
-async def hello_page(request: Request):
+async def hello_page(request: Request, response: Response):
     return templates.TemplateResponse("test.html", {"request": request})
-
-
-
 
 
 # routing that is required authentication 認証を必要とするルーティング

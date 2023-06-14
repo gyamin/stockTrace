@@ -20,22 +20,21 @@ class Users:
                                Column('deleted_at', DateTime)
                                )
 
-    def get_user_by_id_pw(self, id: String, password: String):
+    def get_user_by_id_pw(self, login_id: String, password: String):
         """
         id, pwが合致するユーザを取得する
+        :param login_id:
         :param password:
-        :param id:
         :return:
         """
 
         sql = text(
             """
             select * from users
-            where user_id = :id
+            where login_id = :login_id
             and password = :password
             """
         )
 
-        rows = self.conn.execute(sql, {"num": num}).fetchall()
-
+        rows = self.conn.execute(sql, {"login_id": login_id, "password": password}).fetchall()
         return rows

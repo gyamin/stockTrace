@@ -1,7 +1,7 @@
 from sqlalchemy import Table, Column, String, MetaData, text, join, func
 from sqlalchemy.types import Date, DateTime, Numeric
 from sqlalchemy.sql import select
-from app.db.model.items import Items
+from app.db.dao.items import Items
 
 
 class StockValues:
