@@ -12,7 +12,7 @@ templates = Jinja2Templates(directory="app/templates")
 
 # routers
 app.include_router(web.router)
-app.include_router(web.auth_router)
+app.include_router(web.auth_page_router)
 
 
 # exceptions

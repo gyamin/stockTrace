@@ -1,6 +1,6 @@
 from sqlalchemy import Table, Column, Integer, String, MetaData, ForeignKey, text
 from sqlalchemy.types import Date, DateTime, Numeric
-from sqlalchemy.sql import select
+from sqlalchemy.dialects.postgresql import insert
 
 
 class UserAuthInfo:
@@ -44,6 +44,11 @@ class UserAuthInfo:
         rows = self.conn.execute(sql, {"session_id": session_id}).fetchall()
         return rows
 
-    def create_user_token(self, user_auth_info: {}):
-        ret = self.conn.execute(self.meta_user_auth_info.insert(), user_auth_info)
-        print(ret)
+    def create_or_update_user_token(self, user_auth_info: {}):
+        insert_stmt = insert(self.meta_user_auth_info).values(user_auth_info)
+        duplicate_stmt = insert_stmt.on_conflict_do_update(
+            index_elements=['user_id'],
+            set_=dict(user_auth_info)
+        )
+        ret = self.conn.execute(duplicate_stmt)
+        return ret

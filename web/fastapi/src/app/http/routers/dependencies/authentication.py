@@ -5,7 +5,7 @@ from app.db import database
 from app.db.dao.user_auth_info import UserAuthInfo
 
 
-async def check_token_header(request: Request):
+async def check_token(request: Request):
     token = request.headers.get("authorization")
 
     if token is None:
@@ -22,6 +22,7 @@ async def check_token_header(request: Request):
 
 
 async def check_session_id(session_id: Union[str, None] = Cookie(default=None)):
+
     if not session_id:
         raise AuthenticationPageException("Authentication Failed session_id does not exist.")
 

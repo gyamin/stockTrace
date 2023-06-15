@@ -29,18 +29,19 @@ class LoginService:
             expired_at = current_time + datetime.timedelta(days=1)
 
             model_user_auth_info = user_auth_info.UserAuthInfo(conn)
-            ret = model_user_auth_info.create_user_token(
-                {
-                    "user_id": user.user_id,
-                    "access_token": token,
-                    "access_token_expired_at": expired_at,
-                    "session_id": session,
-                    "session_id_expired_at": expired_at,
-                }
-            )
+
+            user_token = {
+                "user_id": user.user_id,
+                "access_token": token,
+                "access_token_expired_at": expired_at,
+                "session_id": session,
+                "session_id_expired_at": expired_at,
+            }
+
+            ret = model_user_auth_info.create_or_update_user_token(user_token)
             conn.commit()
 
-            return ret
+            return user_token
 
 
 
