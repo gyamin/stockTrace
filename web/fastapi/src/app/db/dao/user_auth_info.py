@@ -34,6 +34,7 @@ class UserAuthInfo:
         sql = text(
             """
             select
+            *
             from user_auth_info ut
             inner join users u on ut.user_id = u.user_id
             where ut.session_id = :session_id
