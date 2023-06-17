@@ -1,3 +1,4 @@
+import datetime
 from fastapi import Request, Cookie
 from typing import Union
 from app.http.exceptions.AuthenticationPageException import AuthenticationPageException
@@ -32,8 +33,15 @@ async def check_session_id(request: Request, session_id: Union[str, None] = Cook
     conn = database.engine.connect()
     rows = UserAuthInfo(conn).get_user_session(session_id)
     if len(rows) < 1:
-        raise AuthenticationPageException("Authentication Failed session_id:" + session_id + '" does not exist.')
+        # セッションidに合致するレコードがない
+        raise AuthenticationPageException('Authentication Failed session_id does not exist.')
+
     user = database.convert_dic(rows)
     logger.info(user[0])
+
+    if user[0]['session_id_expired_at'] < datetime.datetime.now():
+        # セッションidが有効期限切れ
+        raise AuthenticationPageException('Authentication Failed session_id is expired.')
+
     request.__user = user[0]
     return user[0]
