@@ -1,20 +1,31 @@
 from fastapi.requests import Request
 import datetime
+from starlette import status
+from fastapi.responses import RedirectResponse
+from fastapi.templating import Jinja2Templates
 from app.db import database
 from app.db.dao import users, user_auth_info
 from app.com import auth_tool
+from app.http.exceptions.ApplicationException import ApplicationException
+
+templates = Jinja2Templates(directory="app/templates")
 
 
 class LoginService:
     @staticmethod
-    def login(login_id, password):
+    def login(request, login_id, password):
+
         # パスワードハッシュ化
         hs = auth_tool.get_hash(password)
 
+        # id/pwに合致するユーザ検索
         conn = database.engine.connect()
-
         model_users = users.Users(conn)
         users_rs = model_users.get_user_by_id_pw(login_id, hs)
+
+        if len(users_rs) < 1 or len(users_rs) > 1:
+            response = templates.TemplateResponse("login.html", {'request': request, 'message': 'ID/PWに誤りがあります。'})
+            return response
 
         if len(users_rs) == 1:
             # ユーザが存在した場合
@@ -41,9 +52,8 @@ class LoginService:
             ret = model_user_auth_info.create_or_update_user_token(user_token)
             conn.commit()
 
-            return user_token
+            response = RedirectResponse('/auth/top', status_code=status.HTTP_302_FOUND)
+            response.set_cookie(key="session_id", value=user_token.get('session_id'))
+            response.set_cookie(key="session_id_expired_at", value=user_token.get('session_id_expired_at'))
 
-
-
-
-
+            return response

@@ -4,6 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from app.http.routers import web
 from app.http.exceptions.AuthenticationPageException import AuthenticationPageException
+from app.http.exceptions.ApplicationException import ApplicationException
 
 app = FastAPI()
 
@@ -20,6 +21,11 @@ app.include_router(web.auth_page_router)
 async def authentication_exception_handler(request: Request, exception: AuthenticationPageException):
     return templates.TemplateResponse(
         "errors/4xx.html", {"request": request, "message": exception.message}, status_code=403)
+
+
+@app.exception_handler(ApplicationException)
+async def application_exception_handler(request: Request, exception: ApplicationException):
+    return exception.treat_exception(request)
 
 
 @app.exception_handler(Exception)

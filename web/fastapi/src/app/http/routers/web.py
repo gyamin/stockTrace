@@ -3,10 +3,10 @@ from fastapi.requests import Request
 from fastapi.responses import Response, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from starlette import status
-from app.service import top_service
-from app.service import login_service
 from app.http.routers.dependencies.authentication import check_token, check_session_id
 from app.com.logging import logger
+from app.service import top_service
+from app.service import login_service
 import json
 
 router = APIRouter()
@@ -34,16 +34,11 @@ async def login_page(request: Request):
 
 
 @router.post("/login", tags=["webpage"])
-async def exec_login(login_id: str = Form(), passwd: str = Form()):
+async def exec_login(request: Request, login_id: str = Form(), passwd: str = Form()):
     logger.info("POST /login")
     # ログイン処理
     service = login_service.LoginService()
-    auth_info = service.login(login_id, passwd)
-
-    response = RedirectResponse('/auth/top', status_code=status.HTTP_302_FOUND)
-    response.set_cookie(key="session_id", value=auth_info.get('session_id'))
-    response.set_cookie(key="session_id_expired_at", value=auth_info.get('session_id_expired_at'))
-
+    response = service.login(request, login_id, passwd)
     return response
 
 
