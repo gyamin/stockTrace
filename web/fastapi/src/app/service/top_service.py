@@ -1,5 +1,5 @@
-from db import database
-from db.model.sotck_values import StockValues
+from app.db import database
+from app.db.dao.sotck_values import StockValues
 
 
 class TopService:

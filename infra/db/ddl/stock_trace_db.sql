@@ -29,3 +29,26 @@ CREATE TABLE IF NOT EXISTS stock_values (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     primary key(code, trading_date)
 );
+
+CREATE TABLE IF NOT EXISTS users (
+    user_id UUID PRIMARY KEY,
+    login_id VARCHAR(100) UNIQUE NOT NULL,
+    password varchar(255) DEFAULT NULL,
+    family_name varchar(50) NOT NULL,
+    first_name varchar(50) NOT NULL,
+    birth_day DATE DEFAULT NULL,
+    email varchar(255) NOT NULL UNIQUE,
+    telephone varchar(15) DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    deleted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS user_auth_info (
+    user_id UUID PRIMARY KEY,
+    access_token VARCHAR(255) UNIQUE,
+    access_token_expired_at TIMESTAMP,
+    session_id VARCHAR(255) UNIQUE,
+    session_id_expired_at TIMESTAMP,
+    foreign key (user_id) references users(user_id)
+);

@@ -85,7 +85,8 @@ INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
 % pip install jinja2
 % pip install sqlalchemy
 % pip install psycopg2-binary
-% pip install python-dotenv  
+% pip install python-dotenv
+% pip install python-multipart
 ```
 
 #### パッケージ一覧をファイル出力
