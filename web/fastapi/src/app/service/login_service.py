@@ -13,7 +13,7 @@ templates = Jinja2Templates(directory="app/templates")
 
 class LoginService:
     @staticmethod
-    def login(request, login_id, password):
+    def login(request: Request, login_id: str, password: str):
 
         # パスワードハッシュ化
         hs = auth_tool.get_hash(password)
