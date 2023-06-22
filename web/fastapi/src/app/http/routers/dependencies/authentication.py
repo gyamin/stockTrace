@@ -2,6 +2,7 @@ import datetime
 from fastapi import Request, Cookie
 from typing import Union
 from app.http.exceptions.AuthenticationPageException import AuthenticationPageException
+from app.http.exceptions.ApplicationException import ApplicationException
 from app.db import database
 from app.com.logging import logger
 from app.db.dao.user_auth_info import UserAuthInfo
@@ -26,7 +27,7 @@ async def check_token(request: Request):
 async def check_session_id(request: Request, session_id: Union[str, None] = Cookie(default=None)):
 
     if not session_id:
-        raise AuthenticationPageException("Authentication Failed session_id does not exist.")
+        raise ApplicationException('0401', "Authentication Failed session_id does not exist.")
 
     # ユーザ特定
     logger.info('session_id:' + session_id)
@@ -34,7 +35,7 @@ async def check_session_id(request: Request, session_id: Union[str, None] = Cook
     rows = UserAuthInfo(conn).get_user_session(session_id)
     if len(rows) < 1:
         # セッションidに合致するレコードがない
-        raise AuthenticationPageException('Authentication Failed session_id does not exist.')
+        raise ApplicationException('0401', "Authentication Failed there is no row that matches session_id")
 
     user = database.convert_dic(rows)
     logger.info(user[0])
@@ -42,6 +43,9 @@ async def check_session_id(request: Request, session_id: Union[str, None] = Cook
     if user[0]['session_id_expired_at'] < datetime.datetime.now():
         # セッションidが有効期限切れ
         raise AuthenticationPageException('Authentication Failed session_id is expired.')
+    else:
+        # セッション時間延長処理
+        pass
 
     request.__user = user[0]
     return user[0]

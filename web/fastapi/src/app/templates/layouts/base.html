@@ -6,8 +6,15 @@
 </head>
 <body>
 <div class="base-container">
-  <!-- ヘッダー -->
-  {% include "layouts/header.html" %}
+  <header>
+    <div class="container">
+      <!-- ヘッダー -->
+      {% include "layouts/header.html" %}
+      <!-- ナビゲーション -->
+      {% include "layouts/navigation.html" %}
+    </div>
+  </header>
+
 
   <!-- メインコンテンツ -->
   {%- block content %}{% endblock %}

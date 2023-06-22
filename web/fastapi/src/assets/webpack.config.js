@@ -41,6 +41,7 @@ const css_config = {
 const js_config = {
   entry: {
     top: './src/js/top.js',
+    login: './src/js/login.js'
   },
   output: {
     filename: '[name].bundle.js',

@@ -14,7 +14,7 @@ class ApplicationException(Exception):
         self.code_map = {
             '0000': {'message': "", 'status': status.HTTP_400_BAD_REQUEST},
             '0001': {'message': "ログインID、パスワードに誤りがあります。", 'status': status.HTTP_400_BAD_REQUEST},
-            '0002': {'message': "", 'status': status.HTTP_400_BAD_REQUEST},
+            '0401': {'message': "このページにはアクセスできません。再度ログインしてください。", 'status': status.HTTP_403_FORBIDDEN},
         }
 
     def treat_exception(self, request: Request):

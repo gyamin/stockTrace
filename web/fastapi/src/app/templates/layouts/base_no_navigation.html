@@ -6,9 +6,15 @@
 </head>
 <body>
 <div class="base-container">
+  <header>
+    <div class="container">
+      <!-- ヘッダー -->
+      {% include "layouts/header.html" %}
+    </div>
+  </header>
 
-    <!-- メインコンテンツ -->
-    {%- block content %}{% endblock %}
+  <!-- メインコンテンツ -->
+  {%- block content %}{% endblock %}
 
 </div>
 <link rel="stylesheet" type="text/css" href="/static/dist/css/style.css" />
