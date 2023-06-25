@@ -30,11 +30,25 @@ class Users:
 
         sql = text(
             """
-            select * from users
+            select
+            *
+            from users
             where login_id = :login_id
             and password = :password
             """
         )
 
         rows = self.conn.execute(sql, {"login_id": login_id, "password": password}).fetchall()
+        return rows
+
+    def get_user_by_id(self, user_id: str):
+        """
+        :param user_id:
+        :return:
+        """
+        sql = """
+            select * from users where user_id = :user_id
+        """
+
+        rows = self.conn.execute(text(sql), {"user_id": user_id}).fetchall()
         return rows

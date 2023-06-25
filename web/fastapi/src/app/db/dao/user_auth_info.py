@@ -20,6 +20,7 @@ class UserAuthInfo:
         sql = text(
             """
             select
+            uai.*
             from user_auth_info uai
             inner join users u on uai.user_id = u.user_id
             where uai.access_token = :access_token
@@ -34,10 +35,10 @@ class UserAuthInfo:
         sql = text(
             """
             select
-            *
-            from user_auth_info ut
-            inner join users u on ut.user_id = u.user_id
-            where ut.session_id = :session_id
+            uai.*
+            from user_auth_info uai
+            inner join users u on uai.user_id = u.user_id
+            where uai.session_id = :session_id
             limit 1
         """
         )
