@@ -3,12 +3,10 @@ import { createApp } from 'vue'
 const Login = {
   data() {
     return {
-      greeting: 'Hello'
+      message: ''
     }
   },
-  template: `
-    <p>{{greeting}}</p>
-  `
+  delimiters: ["[[","]]"]
 }
 
 let app = createApp(Login).mount('#vue-app')

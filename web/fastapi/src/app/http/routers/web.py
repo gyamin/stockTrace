@@ -30,7 +30,8 @@ templates = Jinja2Templates(directory="app/templates")
 @router.get("/login", tags=["webpage"])
 async def login_page(request: Request):
     logger.info("GET /login")
-    return templates.TemplateResponse("login.html", {"request": request})
+    view_data = {}
+    return templates.TemplateResponse("login.html", {"request": request, "json_data": json.dumps(view_data, default=str)})
 
 
 @router.post("/login", tags=["webpage"])
