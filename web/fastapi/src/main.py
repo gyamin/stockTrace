@@ -27,7 +27,6 @@ async def authentication_exception_handler(request: Request, exception: Authenti
 async def application_exception_handler(request: Request, exception: ApplicationException):
     return exception.treat_exception(request)
 
-
 @app.exception_handler(Exception)
 async def exception_handler(request: Request, exception: Exception):
     content_type = request.headers.get("content-type")
@@ -36,6 +35,7 @@ async def exception_handler(request: Request, exception: Exception):
     else:
         return templates.TemplateResponse(
             "errors/5xx.html", {"request": request, "message": "12345"}, status_code=500)
+
 
 
 @app.get("/")
